@@ -34,6 +34,9 @@ group :development, :test do
 
   # RSpec
   gem 'rspec-rails', '~> 3.8'
+
+  # Factory Bot
+  gem 'factory_bot_rails', '~> 4.11'
 end
 
 group :development do
