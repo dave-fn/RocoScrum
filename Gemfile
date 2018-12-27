@@ -37,6 +37,9 @@ group :development, :test do
 
   # Factory Bot
   gem 'factory_bot_rails', '~> 4.11'
+
+  # Awesome Print
+  gem 'awesome_print', '~> 1.8'
 end
 
 group :development do
