@@ -78,6 +78,9 @@ group :test do
 
   # Pundit Matchers
   gem 'pundit-matchers', '~> 1.6.0'
+
+  # SimpleCov
+  gem 'simplecov'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
