@@ -49,6 +49,9 @@ end
 group :test do
   gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'rails-controller-testing' # Required due to using Rails 5.x
+
+  # Database Cleaner
+  gem 'database_cleaner', '~> 1.7'
 end
 
 
