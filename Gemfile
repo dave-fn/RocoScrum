@@ -52,6 +52,9 @@ group :test do
 
   # Database Cleaner
   gem 'database_cleaner', '~> 1.7'
+
+  # Faker
+  gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
 end
 
 
