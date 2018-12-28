@@ -43,6 +43,9 @@ gem 'jsonapi-resources', '~> 0.9.0'
 # JSON API Authorization
 gem 'jsonapi-authorization', '= 1.0.0.beta2'
 
+# Hashids
+gem 'hashid-rails', '~> 1.2'
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   
