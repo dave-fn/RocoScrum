@@ -115,14 +115,33 @@ RSpec.describe 'API - Roles', type: :request do
 
 
   describe 'POST /api/roles' do
+    let(:base_url)  { '/api/roles' }
+    let(:action)    { post base_url, headers: api_header }
+
+    specify { expect { action }.to raise_error ActionController::RoutingError }
   end
 
 
   describe 'PUT /api/roles/:id' do
+    let(:base_url)  { '/api/roles/:id' }
+    let(:action)    { put "#{base_url.sub(':id', role.hashid)}", params: resource_params.to_json, headers: api_header }
+    let(:resource_params)  { {data: {type: 'roles', id: role.hashid, attributes: {max_participants: 2}}} }
+    
+    let!(:scrum_master_role)  { create(:scrum_master_role) }
+    let(:role)  { scrum_master_role }
+
+    specify { expect { action }.to raise_error ActionController::RoutingError }
   end
 
 
   describe 'DELETE /api/roles/:id' do
+    let(:base_url)  { '/api/roles/:id' }
+    let(:action)    { delete "#{base_url.sub(':id', role.hashid)}", headers: api_header }
+    
+    let!(:scrum_master_role)  { create(:scrum_master_role) }
+    let(:role)  { scrum_master_role }
+
+    specify { expect { action }.to raise_error ActionController::RoutingError }
   end
 
 end

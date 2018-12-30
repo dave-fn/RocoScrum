@@ -54,15 +54,15 @@ end
 
 
 shared_examples 'restricted create' do |url, update_params, opts = {}|
-  requires_let_definitions :content_header, :resource_params, :invalid_params, :missing_params
+  requires_let_definitions :api_header, :resource_params, :invalid_params, :missing_params
 
   let(:base_url)  { url }
 
   context 'as unauthenticated user' do
-    let(:action_unauthenticated)  { post base_url, params: resource_params.to_json, headers: content_header }
+    let(:action_unauthenticated)  { post base_url, params: resource_params.to_json, headers: api_header }
 
     context 'missing Content-Type' do  
-      let(:content_header)  { {'Content-Type': 'application/vnd.json'} }
+      let(:api_header)  { {'Content-Type': 'application/vnd.json'} }
 
       it_behaves_like 'bad content type' do
         let(:action)  { action_unauthenticated }
@@ -97,11 +97,11 @@ shared_examples 'restricted create' do |url, update_params, opts = {}|
   context 'as authenticated user' do
     let(:user)                  { create :user }
     let(:auth_header)           { authenticated_header(user) }
-    let(:rqst_headers)          { content_header.merge auth_header }
+    let(:rqst_headers)          { api_header.merge auth_header }
     let(:action_authenticated)  { post base_url, params: resource_params.to_json, headers: rqst_headers }
 
     context 'missing Content-Type'do  
-      let(:content_header)  { {'Content-Type': 'application/vnd.json'} }
+      let(:api_header)  { {'Content-Type': 'application/vnd.json'} }
 
       it_behaves_like 'bad content type' do
         let(:action)  { action_authenticated }
