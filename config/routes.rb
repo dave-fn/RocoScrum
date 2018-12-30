@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     scope module: :v1, constraints: ApiConstraint.new(version: 1, default: false) do
+      jsonapi_resources :roles do
+      end
     end
   end
 end
