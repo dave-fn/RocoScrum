@@ -1,8 +1,16 @@
 FactoryBot.define do
+
   factory :user do
-    name { "MyString" }
-    email { "MyString" }
-    password_digest { "MyString" }
-    last_logged_at { "2018-12-30 11:56:21" }
+    name { Faker::Internet.username }
+    email { Faker::Internet.safe_email }
+    password { Faker::Internet.password }
+
+    trait :matching_fields do
+      email { Faker::Internet.safe_email(name) }
+      password { name }
+    end
+
+    factory :dummy_user, traits: [:matching_fields]
   end
+
 end
