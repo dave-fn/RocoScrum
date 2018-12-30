@@ -13,6 +13,7 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'pundit/rspec'
 require 'pundit/matchers'
+require 'support/requests_helpers.rb'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -70,6 +71,10 @@ RSpec.configure do |config|
   # Include factory_bot methods
   config.include FactoryBot::Syntax::Methods
 
+  # Include helper methods
+  config.include Requests::JsonHelpers, type: :request
+  config.include Requests::HeaderHelpers, type: :request
+  
   # Database Cleaner configuration
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
