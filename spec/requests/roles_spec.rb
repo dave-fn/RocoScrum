@@ -13,7 +13,8 @@ RSpec.describe 'API - Roles', type: :request do
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let!(:product_owner_role)  { create(:product_owner_role) }
     let!(:developer_role)  { create(:developer_role) }
-
+    let(:user)  { create :dummy_user }
+    
     it_behaves_like 'unrestricted index', '/api/roles', count: 3
 
     context 'when filtering' do
@@ -58,7 +59,7 @@ RSpec.describe 'API - Roles', type: :request do
 
       context 'as authenticated user' do
         let(:user)                  { create :user }
-        let(:auth_header)           { api_header.merge(authenticated_header(user.hashid)) }
+        let(:auth_header)           { api_header.merge(authenticated_header(user)) }
         let(:rqst_opts)             { '' }
         let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 

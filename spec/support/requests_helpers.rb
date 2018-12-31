@@ -11,12 +11,18 @@ module Requests
 
   module HeaderHelpers
 
-    def generate_token(user_id)
-      Knock::AuthToken.new(payload: {sub: user_id}).token
+    # def generate_token(user_id)
+    #   Knock::AuthToken.new(payload: {sub: user_id}).token
+    # end
+    def generate_token(user)
+      Knock::AuthToken.new(payload: user.to_token_payload).token
     end
 
-    def authenticated_header(user_id)
-      {'Authorization': "Bearer #{generate_token(user_id)}"}
+    # def authenticated_header(user_id)
+    #   {'Authorization': "Bearer #{generate_token(user_id)}"}
+    # end
+    def authenticated_header(user)
+      {'Authorization': "Bearer #{generate_token(user)}"}
     end
 
     def api_header_for_version(version)
