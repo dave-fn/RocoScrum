@@ -56,9 +56,9 @@ RSpec.describe 'API - Roles', type: :request do
         end
       end
 
-      xcontext 'as authenticated user' do
+      context 'as authenticated user' do
         let(:user)                  { create :user }
-        let(:auth_header)           { authenticated_header(user) }
+        let(:auth_header)           { api_header.merge(authenticated_header(user.hashid)) }
         let(:rqst_opts)             { '' }
         let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 
@@ -72,7 +72,7 @@ RSpec.describe 'API - Roles', type: :request do
         end
 
         context 'by hash_id' do
-          let(:role_hash_id)  { Role.last.id }
+          let(:role_hash_id)  { Role.last.hashid }
           let(:rqst_opts)     { "filter[id]=#{role_hash_id}" }
 
           it_behaves_like 'accessible resource', count: 1 do

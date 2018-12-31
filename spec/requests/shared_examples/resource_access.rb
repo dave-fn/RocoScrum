@@ -12,7 +12,7 @@ shared_examples 'unrestricted index' do |url, opts = {}|
     end
   end
 
-  xcontext 'as authenticated user' do
+  context 'as authenticated user' do
     let(:user)                  { create :user }
     let(:auth_header)           { api_header.merge(authenticated_header(user)) }
     let(:rqst_opts)             { '' }
@@ -96,7 +96,7 @@ shared_examples 'restricted create' do |url, update_params, opts = {}|
 
   context 'as authenticated user' do
     let(:user)                  { create :user }
-    let(:auth_header)           { authenticated_header(user) }
+    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
     let(:rqst_headers)          { api_header.merge auth_header }
     let(:action_authenticated)  { post base_url, params: resource_params.to_json, headers: rqst_headers }
 
@@ -180,7 +180,7 @@ shared_examples 'restricted update' do |url, opts = {}|
 
   context 'as authenticated user' do
     let(:user)                  { create :user }
-    let(:auth_header)           { authenticated_header(user) }
+    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
     let(:rqst_headers)          { content_header.merge auth_header }
     let(:action_authenticated)  { put "#{base_url.sub(':id', resource_id.to_s)}", params: resource_params.to_json, headers: rqst_headers }
 
