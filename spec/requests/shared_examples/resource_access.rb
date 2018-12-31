@@ -82,6 +82,49 @@ shared_examples 'unrestricted show' do |url, opts = {}|
 end
 
 
+shared_examples 'restricted show' do |url, opts = {}|
+  requires_let_definitions :api_header
+
+  let(:base_url)  { url }
+
+  context 'as unauthenticated user' do
+    let(:rqst_opts)               { '' }
+    let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: api_header }
+
+    it_behaves_like 'unauthorized request', count: opts[:count] do
+      let(:action)  { action_unauthenticated }
+    end
+  end
+
+  context 'as authenticated user' do
+    requires_let_definitions :user
+    # let(:user)                  { create :user }
+    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+    let(:rqst_opts)             { '' }
+    let(:action_authenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: auth_header }
+
+    context 'when resource exists' do
+      it_behaves_like 'accessible resource' do
+        let(:action)  { action_authenticated }
+      end
+
+      it 'returns a single instance' do
+        action_authenticated
+        expect(json.dig('data', 'id')).to eq(resource_id.to_s)
+      end
+    end
+
+    context 'when resource does not exist' do
+      let(:resource_id)  { -1 }
+
+      it_behaves_like 'missing resource' do
+        let(:action)  { action_authenticated }
+      end
+    end
+  end
+end
+
+
 shared_examples 'restricted create' do |url, update_params, opts = {}|
   requires_let_definitions :api_header, :resource_params, :invalid_params, :missing_params
 
