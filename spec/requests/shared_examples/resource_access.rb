@@ -1,11 +1,11 @@
 shared_examples 'unrestricted index' do |url, opts = {}|
-  requires_let_definitions :api_header
+  requires_let_definitions :req_header
 
   let(:base_url)  { url }
 
   context 'as unauthenticated user' do
     let(:rqst_opts)               { '' }
-    let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: api_header }
+    let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: req_header }
 
     it_behaves_like 'accessible resource', count: opts[:count] do
       let(:action)  { action_unauthenticated }
@@ -15,7 +15,7 @@ shared_examples 'unrestricted index' do |url, opts = {}|
   context 'as authenticated user' do
     requires_let_definitions :user
     # let(:user)                  { create :user }
-    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
     let(:rqst_opts)             { '' }
     let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 
@@ -27,13 +27,13 @@ end
 
 
 shared_examples 'restricted index' do |url, opts = {}|
-  requires_let_definitions :api_header
+  requires_let_definitions :req_header
 
   let(:base_url)  { url }
 
   context 'as unauthenticated user' do
     let(:rqst_opts)               { '' }
-    let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: api_header }
+    let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: req_header }
 
     it_behaves_like 'unauthorized request', count: opts[:count] do
       let(:action)  { action_unauthenticated }
@@ -43,7 +43,7 @@ shared_examples 'restricted index' do |url, opts = {}|
   context 'as authenticated user' do
     requires_let_definitions :user
     # let(:user)                  { create :user }
-    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
     let(:rqst_opts)             { '' }
     let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 
@@ -55,11 +55,11 @@ end
 
 
 shared_examples 'unrestricted show' do |url, opts = {}|
-  requires_let_definitions :resource_id, :api_header
+  requires_let_definitions :resource_id, :req_header
 
   let(:base_url)  { url }
 
-  let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: api_header }
+  let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: req_header }
 
   context 'when resource exists' do
     it_behaves_like 'accessible resource' do
@@ -83,13 +83,13 @@ end
 
 
 shared_examples 'restricted show' do |url, opts = {}|
-  requires_let_definitions :api_header
+  requires_let_definitions :req_header
 
   let(:base_url)  { url }
 
   context 'as unauthenticated user' do
     let(:rqst_opts)               { '' }
-    let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: api_header }
+    let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: req_header }
 
     it_behaves_like 'unauthorized request', count: opts[:count] do
       let(:action)  { action_unauthenticated }
@@ -99,7 +99,7 @@ shared_examples 'restricted show' do |url, opts = {}|
   context 'as authenticated user' do
     requires_let_definitions :user
     # let(:user)                  { create :user }
-    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
     let(:rqst_opts)             { '' }
     let(:action_authenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: auth_header }
 
@@ -126,15 +126,15 @@ end
 
 
 shared_examples 'restricted create' do |url, update_params, opts = {}|
-  requires_let_definitions :api_header, :resource_params, :invalid_params, :missing_params
+  requires_let_definitions :req_header, :resource_params, :invalid_params, :missing_params
 
   let(:base_url)  { url }
 
   context 'as unauthenticated user' do
-    let(:action_unauthenticated)  { post base_url, params: resource_params.to_json, headers: api_header }
+    let(:action_unauthenticated)  { post base_url, params: resource_params.to_json, headers: req_header }
 
     context 'missing Content-Type' do  
-      let(:api_header)  { {'Content-Type': 'application/vnd.json'} }
+      let(:req_header)  { {'Content-Type': 'application/vnd.json'} }
 
       it_behaves_like 'bad content type' do
         let(:action)  { action_unauthenticated }
@@ -169,12 +169,12 @@ shared_examples 'restricted create' do |url, update_params, opts = {}|
   context 'as authenticated user' do
     requires_let_definitions :user
     # let(:user)                  { create :user }
-    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
-    let(:rqst_headers)          { api_header.merge auth_header }
+    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
+    let(:rqst_headers)          { req_header.merge auth_header }
     let(:action_authenticated)  { post base_url, params: resource_params.to_json, headers: rqst_headers }
 
     context 'missing Content-Type'do  
-      let(:api_header)  { {'Content-Type': 'application/vnd.json'} }
+      let(:req_header)  { {'Content-Type': 'application/vnd.json'} }
 
       it_behaves_like 'bad content type' do
         let(:action)  { action_authenticated }
@@ -254,7 +254,7 @@ shared_examples 'restricted update' do |url, opts = {}|
   context 'as authenticated user' do
     requires_let_definitions :user
     # let(:user)                  { create :user }
-    let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
     let(:rqst_headers)          { content_header.merge auth_header }
     let(:action_authenticated)  { put "#{base_url.sub(':id', resource_id.to_s)}", params: resource_params.to_json, headers: rqst_headers }
 

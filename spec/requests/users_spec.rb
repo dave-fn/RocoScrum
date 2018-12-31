@@ -4,7 +4,7 @@ require_relative 'shared_examples/resource_access.rb'
 RSpec.describe 'API - Users', type: :request do
 
   # let(:api_header)  { api_header_for_version 1 }
-  let(:api_header)  { generate_http_header version: 1 }
+  let(:req_header)  { api_header for_version: 1 }
 
 
   describe 'GET /api/users' do
@@ -19,7 +19,7 @@ RSpec.describe 'API - Users', type: :request do
     context 'when filtering' do
       context 'as unauthenticated user' do
         let(:rqst_opts)               { '' }
-        let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: generate_http_header(version: 1) }
+        let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: req_header }
 
         context 'by id' do
           let(:user_id)    { User.last.id }
@@ -59,7 +59,7 @@ RSpec.describe 'API - Users', type: :request do
       context 'as authenticated user' do
         let(:user)                  { create :user }
         # let(:auth_header)           { api_header.merge(authenticated_header(user)) }
-        let(:auth_header)           { generate_http_header(authenticate: user, version: 1) }
+        let(:auth_header)           { api_header(authenticate_as: user, for_version: 1) }
         let(:rqst_opts)             { '' }
         let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 
@@ -115,7 +115,7 @@ RSpec.describe 'API - Users', type: :request do
   # Preliminary Implementation - Will need to provide mechanism to create users
   describe 'POST /api/users' do
     let(:base_url)  { '/api/users' }
-    let(:action)    { post base_url, headers: api_header }
+    let(:action)    { post base_url, headers: req_header }
 
     specify { expect { action }.to raise_error ActionController::RoutingError }
   end
@@ -124,7 +124,7 @@ RSpec.describe 'API - Users', type: :request do
   # Preliminary Implementation - Will need to provide mechanism to update users
   describe 'PUT /api/users/:id' do
     let(:base_url)  { '/api/users/:id' }
-    let(:action)    { put "#{base_url.sub(':id', user.hashid)}", params: resource_params.to_json, headers: api_header }
+    let(:action)    { put "#{base_url.sub(':id', user.hashid)}", params: resource_params.to_json, headers: req_header }
     let(:resource_params)  { {data: {type: 'users', id: user.hashid, attributes: {email: 'test@example.org'}}} }
     
     let!(:user)  { create :dummy_user }
@@ -136,7 +136,7 @@ RSpec.describe 'API - Users', type: :request do
   # Preliminary Implementation - Will need to provide mechanism to delete users
   describe 'DELETE /api/users/:id' do
     let(:base_url)  { '/api/users/:id' }
-    let(:action)    { delete "#{base_url.sub(':id', user.hashid)}", headers: api_header }
+    let(:action)    { delete "#{base_url.sub(':id', user.hashid)}", headers: req_header }
     
     let!(:user)  { create :dummy_user }
 

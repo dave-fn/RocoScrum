@@ -6,7 +6,7 @@ RSpec.describe 'API - User Tokens', type: :request do
   describe 'POST /api/user_token' do
     let(:base_url)  { '/api/user_token' }
     let(:action)  { post base_url, params: user_cred, headers: http_header }
-    let(:http_header)  { {'Content-Type' => 'application/json'} }
+    let(:http_header)  { api_header content_type: 'application/json' }
 
     let(:user)  { create :dummy_user }
 
