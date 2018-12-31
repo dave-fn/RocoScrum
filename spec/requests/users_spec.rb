@@ -3,7 +3,8 @@ require_relative 'shared_examples/resource_access.rb'
 
 RSpec.describe 'API - Users', type: :request do
 
-  let(:api_header)  { api_header_for_version 1 }
+  # let(:api_header)  { api_header_for_version 1 }
+  let(:api_header)  { generate_http_header version: 1 }
 
 
   describe 'GET /api/users' do
@@ -18,7 +19,7 @@ RSpec.describe 'API - Users', type: :request do
     context 'when filtering' do
       context 'as unauthenticated user' do
         let(:rqst_opts)               { '' }
-        let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: api_header }
+        let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: generate_http_header(version: 1) }
 
         context 'by id' do
           let(:user_id)    { User.last.id }
@@ -57,7 +58,8 @@ RSpec.describe 'API - Users', type: :request do
 
       context 'as authenticated user' do
         let(:user)                  { create :user }
-        let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+        # let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+        let(:auth_header)           { generate_http_header(authenticate: user, version: 1) }
         let(:rqst_opts)             { '' }
         let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 

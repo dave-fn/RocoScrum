@@ -3,7 +3,8 @@ require_relative 'shared_examples/resource_access.rb'
 
 RSpec.describe 'API - Roles', type: :request do
 
-  let(:api_header)  { api_header_for_version(1) }
+  # let(:api_header)  { api_header_for_version(1) }
+  let(:api_header)  { generate_http_header version: 1 }
 
 
   describe 'GET /api/roles' do
@@ -59,7 +60,8 @@ RSpec.describe 'API - Roles', type: :request do
 
       context 'as authenticated user' do
         let(:user)                  { create :user }
-        let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+        # let(:auth_header)           { api_header.merge(authenticated_header(user)) }
+        let(:auth_header)           { generate_http_header authenticate: user, version: 1 }
         let(:rqst_opts)             { '' }
         let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
 

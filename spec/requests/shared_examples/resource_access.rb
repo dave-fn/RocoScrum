@@ -68,7 +68,7 @@ shared_examples 'unrestricted show' do |url, opts = {}|
 
     it 'returns a single instance' do
       action_unauthenticated
-      expect(json.dig('data', 'id')).to eq(resource_id.to_s)
+      expect(json_response.dig('data', 'id')).to eq(resource_id.to_s)
     end
   end
 
@@ -110,7 +110,7 @@ shared_examples 'restricted show' do |url, opts = {}|
 
       it 'returns a single instance' do
         action_authenticated
-        expect(json.dig('data', 'id')).to eq(resource_id.to_s)
+        expect(json_response.dig('data', 'id')).to eq(resource_id.to_s)
       end
     end
 
@@ -306,15 +306,15 @@ shared_examples 'accessible resource' do |opts = {}|
   if opts[:count] then
     if opts[:count] == 1 then
       it 'returns a single object' do
-        expect(json['data'].length).to eq opts[:count]
+        expect(json_response['data'].length).to eq opts[:count]
       end
     elsif opts[:count] == 0 then
       it 'returns no objects' do
-        expect(json['data'].length).to eq opts[:count]
+        expect(json_response['data'].length).to eq opts[:count]
       end
     else
       it 'returns list of objects' do
-        expect(json['data'].length).to eq opts[:count]
+        expect(json_response['data'].length).to eq opts[:count]
       end
     end
   end
@@ -329,7 +329,7 @@ shared_examples 'creatable resource' do |opts = {}|
   specify { expect(response).to have_http_status :created } 
 
   it 'creates resource' do
-    expect(json.dig('data', 'attributes', opts[:fields][:name])).to eq(opts[:fields][:value])
+    expect(json_response.dig('data', 'attributes', opts[:fields][:name])).to eq(opts[:fields][:value])
   end
 end
 
@@ -340,7 +340,7 @@ shared_examples 'updatable resource' do |opts = {}|
   before { action }
   
   it 'returns updated resource' do
-    expect(json.dig('data', 'id')).to eq(id)
+    expect(json_response.dig('data', 'id')).to eq(id)
   end
 
   it 'updates resource'
@@ -355,7 +355,7 @@ shared_examples 'missing resource' do |opts = {}|
   before { action }
 
   it 'returns an empty hash' do
-    expect(json['data']).to be_nil
+    expect(json_response['data']).to be_nil
   end
   
   specify { expect(response).to have_http_status :not_found }

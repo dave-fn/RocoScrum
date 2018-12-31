@@ -73,7 +73,7 @@ RSpec.configure do |config|
 
   # Include helper methods
   config.include Requests::JsonHelpers, type: :request
-  config.include Requests::HeaderHelpers, type: :request
+  config.include Requests::AuthenticationHelpers, type: :request
   
   # Database Cleaner configuration
   config.before(:suite) do
