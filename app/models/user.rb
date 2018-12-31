@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  include Hashid::Rails
+  
   # bcrypt - password_digest
   has_secure_password
 
@@ -9,6 +11,11 @@ class User < ApplicationRecord
   validates :password_digest, presence: true
 
   before_validation { change_case_of_email }
+
+  # Knock override
+  def to_token_payload
+    {sub: hashid}
+  end
 
 
   private

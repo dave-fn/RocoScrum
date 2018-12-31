@@ -15,3 +15,5 @@ DatabaseCleaner.clean_with :truncation
 r1 = FactoryBot.create :scrum_master_role
 r2 = FactoryBot.create :product_owner_role
 r3 = FactoryBot.create :developer_role
+
+u1 = FactoryBot.create :dummy_user, name: 'testuser'
