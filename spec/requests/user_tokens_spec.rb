@@ -3,17 +3,17 @@ require_relative 'shared_examples/resource_access.rb'
 
 RSpec.describe 'API - User Tokens', type: :request do
 
-  describe 'POST /api/user_token' do
-    let(:base_url)  { '/api/user_token' }
-    let(:action)  { post base_url, params: user_cred, headers: http_header }
-    let(:http_header)  { api_header content_type: 'application/json' }
+  let(:url_base)  { '/api/user_token' }
 
+  describe 'POST /api/user_token' do
+    let(:request)  { post url, params: credentials }
+    let(:url)  { url_base }
     let(:user)  { create :dummy_user }
 
     context 'as authenticated user' do
-      let(:user_cred)  { {'auth' => {'email' => user.email, 'password' => user.password }}.to_json }
+      let(:credentials)  { {'auth' => {'email' => user.email, 'password' => user.password}} }
 
-      before(:each)  { action }
+      before(:each)  { request }
 
       it 'returns a JWT' do
         expect(json_response).to have_key 'jwt'
@@ -30,9 +30,11 @@ RSpec.describe 'API - User Tokens', type: :request do
     end
 
     context 'as unauthenticated user' do
-      let(:user_cred)  { {'auth' => {'email' => user.email, 'password' => '' }}.to_json }
+      let(:credentials)  { {'auth' => {'email' => user.email, 'password' => ''}} }
 
-      it_behaves_like 'missing resource'
+      it_behaves_like 'missing resource' do
+        let(:example_request)  { request }
+      end
     end
   end
 

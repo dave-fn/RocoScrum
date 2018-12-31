@@ -3,99 +3,103 @@ require_relative 'shared_examples/resource_access.rb'
 
 RSpec.describe 'API - Roles', type: :request do
 
-  # let(:api_header)  { api_header_for_version(1) }
-  let(:req_header)  { api_header for_version: 1 }
+  let(:url_base)  { '/api/roles' }
+
+  let(:authenticated_headers)  { api_header authenticate_as: user, for_version: 1 }
+  let(:unauthenticated_headers)  { api_header for_version: 1 }
+  let(:user)  { create :dummy_user }
 
 
   describe 'GET /api/roles' do
-
-    let(:base_url)  { '/api/roles' }
+    let(:request)  { get url, headers: request_headers }
+    let(:url)  { "#{url_base}?#{url_request_options}" }
+    let(:url_request_options)  { '' }
 
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let!(:product_owner_role)  { create(:product_owner_role) }
     let!(:developer_role)  { create(:developer_role) }
-    let(:user)  { create :dummy_user }
     
-    it_behaves_like 'unrestricted index', '/api/roles', count: 3
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      it_behaves_like 'accessible resource', expected_count: 3 do
+        let(:example_request)  { request }
+      end
 
-    context 'when filtering' do
-      context 'as unauthenticated user' do
-        let(:rqst_opts)               { '' }
-        let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: req_header }
-
+      context 'when filtering' do
         context 'by id' do
-          let(:role_id)    { Role.last.id }
-          let(:rqst_opts)  { "filter[id]=#{role_id}" }
+          let(:role_id)  { Role.last.id }
+          let(:url_request_options)  { "filter[id]=#{role_id}" }
 
-          it_behaves_like 'accessible resource', count: 0 do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'accessible resource', expected_count: 0 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by hash_id' do
           let(:role_hash_id)  { Role.last.hashid }
-          let(:rqst_opts)     { "filter[id]=#{role_hash_id}" }
+          let(:url_request_options)  { "filter[id]=#{role_hash_id}" }
 
-          it_behaves_like 'accessible resource', count: 1 do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'accessible resource', expected_count: 1 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by name' do
-          let(:rqst_opts)  { 'filter[name]=Developer' }
+          let(:url_request_options)  { 'filter[name]=Developer' }
 
-          it_behaves_like 'accessible resource', count: 1 do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'accessible resource', expected_count: 1 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by description' do
-          let(:rqst_opts)  { 'filter[description]=9.99' }
+          let(:url_request_options)  { 'filter[description]=9.99' }
 
           it_behaves_like 'bad request' do
-            let(:action)  { action_unauthenticated }
+            let(:example_request)  { request }
           end
         end
       end
+    end
 
-      context 'as authenticated user' do
-        let(:user)                  { create :user }
-        # let(:auth_header)           { api_header.merge(authenticated_header(user)) }
-        let(:auth_header)           { api_header authenticate_as: user, for_version: 1 }
-        let(:rqst_opts)             { '' }
-        let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      it_behaves_like 'accessible resource', expected_count: 3 do
+        let(:example_request)  { request }
+      end
 
+      context 'when filtering' do
         context 'by id' do
-          let(:role_id)    { Role.last.id }
-          let(:rqst_opts)  { "filter[id]=#{role_id}" }
+          let(:role_id)  { Role.last.id }
+          let(:url_request_options)  { "filter[id]=#{role_id}" }
 
-          it_behaves_like 'accessible resource', count: 0 do
-            let(:action)  { action_authenticated }
+          it_behaves_like 'accessible resource', expected_count: 0 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by hash_id' do
           let(:role_hash_id)  { Role.last.hashid }
-          let(:rqst_opts)     { "filter[id]=#{role_hash_id}" }
+          let(:url_request_options)  { "filter[id]=#{role_hash_id}" }
 
-          it_behaves_like 'accessible resource', count: 1 do
-            let(:action)  { action_authenticated }
+          it_behaves_like 'accessible resource', expected_count: 1 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by name' do
-          let(:rqst_opts)  { 'filter[name]=Developer' }
+          let(:url_request_options)  { 'filter[name]=Developer' }
 
-          it_behaves_like 'accessible resource', count: 1 do
-            let(:action)  { action_authenticated }
+          it_behaves_like 'accessible resource', expected_count: 1 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by description' do
-          let(:rqst_opts)  { 'filter[description]=Developer' }
+          let(:url_request_options)  { 'filter[description]=9.99' }
 
           it_behaves_like 'bad request' do
-            let(:action)  { action_authenticated }
+            let(:example_request)  { request }
           end
         end
       end
@@ -104,47 +108,87 @@ RSpec.describe 'API - Roles', type: :request do
 
 
   describe 'GET /api/roles/:id' do
-    let(:base_url)  { '/api/roles/:id' }
+    # let(:request)  { get url, headers: request_headers }
+    # let(:url)  { "#{url_base}/#{role_id}" }
 
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let!(:product_owner_role)  { create(:product_owner_role) }
     let!(:developer_role)  { create(:developer_role) }
-    let(:roles)  { [scrum_master_role, product_owner_role, developer_role] }
 
-    it_behaves_like 'unrestricted show', '/api/roles/:id' do
-      let(:resource_id)  { roles.first.hashid }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+
+      it_behaves_like 'accessible show actions' do
+        let(:available_resource_id)  { product_owner_role.hashid }
+        let(:unavailable_resource_id)  { -1 }
+      end
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+
+      it_behaves_like 'accessible show actions' do
+        let(:available_resource_id)  { product_owner_role.hashid }
+        let(:unavailable_resource_id)  { -1 }
+      end
     end
   end
 
 
   describe 'POST /api/roles' do
-    let(:base_url)  { '/api/roles' }
-    let(:action)    { post base_url, headers: req_header }
+    let(:request)  { post url, headers: request_headers }
+    let(:url)  { url_base }
 
-    specify { expect { action }.to raise_error ActionController::RoutingError }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
   end
 
 
   describe 'PUT /api/roles/:id' do
-    let(:base_url)  { '/api/roles/:id' }
-    let(:action)    { put "#{base_url.sub(':id', role.hashid)}", params: resource_params.to_json, headers: req_header }
+    let(:request)  { put url, params: resource_params, headers: request_headers }
+    let(:url)  { "#{url_base}/#{role_id}" }  
     let(:resource_params)  { {data: {type: 'roles', id: role.hashid, attributes: {max_participants: 2}}} }
     
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let(:role)  { scrum_master_role }
+    let(:role_id)  { role.hashid }
 
-    specify { expect { action }.to raise_error ActionController::RoutingError }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
   end
 
 
   describe 'DELETE /api/roles/:id' do
-    let(:base_url)  { '/api/roles/:id' }
-    let(:action)    { delete "#{base_url.sub(':id', role.hashid)}", headers: req_header }
+    let(:request)  { delete url, headers: request_headers }
+    let(:url)  { "#{url_base}/#{role_id}" }
     
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let(:role)  { scrum_master_role }
+    let(:role_id)  { role.hashid }
 
-    specify { expect { action }.to raise_error ActionController::RoutingError }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
   end
 
 end
