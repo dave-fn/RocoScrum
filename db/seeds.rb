@@ -16,4 +16,8 @@ r1 = FactoryBot.create :scrum_master_role
 r2 = FactoryBot.create :product_owner_role
 r3 = FactoryBot.create :developer_role
 
-u1 = FactoryBot.create :dummy_user, name: 'testuser'
+case Rails.env
+when 'development'
+  u1 = FactoryBot.create :dummy_user, name: 'testuser', email: 'testuser@example.org'
+when 'production'
+end
