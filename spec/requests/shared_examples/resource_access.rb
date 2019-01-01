@@ -1,84 +1,21 @@
-# shared_examples 'unrestricted index' do |url, opts = {}|
-#   # require_let_definitions :req_header
+shared_examples 'restricted index' do |unauthenticated: false, authenticated: false, unauthenticated_count: nil, authenticated_count: nil|
+  context 'as authenticated user' do
+    let(:request_headers)  { authenticated_headers }
 
-#   # let(:base_url)  { url }
-
-#   context 'as unauthenticated user' do
-#     # let(:rqst_opts)               { '' }
-#     # let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: req_header }
-
-#     it_behaves_like 'accessible resource', expected_count: opts[:count] do
-#       # let(:action)  { action_unauthenticated }
-#       # let(:example_request)  { action_unauthenticated }
-#     end
-#   end
-
-#   context 'as authenticated user' do
-#     # require_let_definitions :user
-#     # let(:user)                  { create :user }
-#     # let(:auth_header)           { req_header.merge(authenticated_header(user)) }
-#     # let(:rqst_opts)             { '' }
-#     # let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
-
-#     it_behaves_like 'accessible resource', expected_count: opts[:count] do
-#       # let(:action)  { action_authenticated }
-#       # let(:example_request)  { action_unauthenticated }
-#     end
-#   end
-# end
-
-
-shared_examples 'restricted index' do |url, opts = {}|
-  require_let_definitions :req_header
-
-  let(:base_url)  { url }
+    if authenticated
+      it_behaves_like 'accessible resource', expected_count: authenticated_count
+    else
+      it_behaves_like 'unauthorized request'
+    end
+  end
 
   context 'as unauthenticated user' do
-    let(:rqst_opts)               { '' }
-    let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: req_header }
+    let(:request_headers)  { unauthenticated_headers }
 
-    it_behaves_like 'unauthorized request', expected_count: opts[:count] do
-      let(:action)  { action_unauthenticated }
-    end
-  end
-
-  context 'as authenticated user' do
-    require_let_definitions :user
-    # let(:user)                  { create :user }
-    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
-    let(:rqst_opts)             { '' }
-    let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
-
-    it_behaves_like 'accessible resource', expected_count: opts[:count] do
-      let(:action)  { action_authenticated }
-    end
-  end
-end
-
-
-shared_examples 'unrestricted show' do |url, opts = {}|
-  require_let_definitions :resource_id, :req_header
-
-  let(:base_url)  { url }
-
-  let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: req_header }
-
-  context 'when resource exists' do
-    it_behaves_like 'accessible resource' do
-      let(:action)  { action_unauthenticated }
-    end
-
-    it 'returns a single instance' do
-      action_unauthenticated
-      expect(json_response.dig('data', 'id')).to eq(resource_id.to_s)
-    end
-  end
-
-  context 'when resource does not exist' do
-    let(:resource_id)  { -1 }
-
-    it_behaves_like 'missing resource' do
-      let(:example_request)  { action_unauthenticated }
+    if unauthenticated
+      it_behaves_like 'accessible resource', expected_count: unauthenticated_count
+    else
+      it_behaves_like 'unauthorized request'
     end
   end
 end

@@ -18,14 +18,15 @@ RSpec.describe 'API - Roles', type: :request do
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let!(:product_owner_role)  { create(:product_owner_role) }
     let!(:developer_role)  { create(:developer_role) }
-    
-    context 'as authenticated user' do
-      let(:request_headers)  { authenticated_headers }
-      it_behaves_like 'accessible resource', expected_count: 3 do
-        let(:example_request)  { request }
-      end
 
-      context 'when filtering' do
+    it_behaves_like 'restricted index', authenticated: true, authenticated_count: 3, unauthenticated: true, unauthenticated_count: 3 do
+      let(:example_request)  { request }
+    end
+
+    context 'when filtering' do
+      context 'as authenticated user' do
+        let(:request_headers)  { authenticated_headers }
+
         context 'by id' do
           let(:role_id)  { Role.last.id }
           let(:url_request_options)  { "filter[id]=#{role_id}" }
@@ -60,15 +61,10 @@ RSpec.describe 'API - Roles', type: :request do
           end
         end
       end
-    end
 
-    context 'as unauthenticated user' do
-      let(:request_headers)  { unauthenticated_headers }
-      it_behaves_like 'accessible resource', expected_count: 3 do
-        let(:example_request)  { request }
-      end
+      context 'as unauthenticated user' do
+        let(:request_headers)  { unauthenticated_headers }
 
-      context 'when filtering' do
         context 'by id' do
           let(:role_id)  { Role.last.id }
           let(:url_request_options)  { "filter[id]=#{role_id}" }

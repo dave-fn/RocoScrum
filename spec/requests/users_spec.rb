@@ -19,13 +19,14 @@ RSpec.describe 'API - Users', type: :request do
     let!(:user)   { create :dummy_user, name: 'testuser' }
     let!(:users)  { create_list :dummy_user, 3 }
 
-    context 'as authenticated user' do
-      let(:request_headers)  { authenticated_headers }
-      it_behaves_like 'accessible resource', expected_count: 4 do
-        let(:example_request)  { request }
-      end
+    it_behaves_like 'restricted index', authenticated: true, authenticated_count: 4 do
+      let(:example_request)  { request }
+    end
 
-      context 'when filtering' do
+    context 'when filtering' do
+      context 'as authenticated user' do
+        let(:request_headers)  { authenticated_headers }
+
         context 'by id' do
           let(:user_id)    { User.last.id }
           let(:url_request_options)  { "filter[id]=#{user_id}" }
@@ -61,15 +62,10 @@ RSpec.describe 'API - Users', type: :request do
           end
         end
       end
-    end
 
-    context 'as unauthenticated user' do
-      let(:request_headers)  { unauthenticated_headers }
-      it_behaves_like 'unauthorized request' do
-        let(:example_request)  { request }
-      end
+      context 'as unauthenticated user' do
+        let(:request_headers)  { unauthenticated_headers }
 
-      context 'when filtering' do
         context 'by hash_id' do
           let(:user_hash_id)  { User.last.hashid }
           let(:rqst_opts)     { "filter[id]=#{user_hash_id}" }
