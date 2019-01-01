@@ -108,29 +108,17 @@ RSpec.describe 'API - Roles', type: :request do
 
 
   describe 'GET /api/roles/:id' do
-    # let(:request)  { get url, headers: request_headers }
-    # let(:url)  { "#{url_base}/#{role_id}" }
+    let(:request)  { get url, headers: request_headers }
+    let(:url)  { "#{url_base}/#{role_id}" }
 
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let!(:product_owner_role)  { create(:product_owner_role) }
     let!(:developer_role)  { create(:developer_role) }
 
-    context 'as authenticated user' do
-      let(:request_headers)  { authenticated_headers }
-
-      it_behaves_like 'accessible show actions' do
-        let(:available_resource_id)  { product_owner_role.hashid }
-        let(:unavailable_resource_id)  { -1 }
-      end
-    end
-
-    context 'as unauthenticated user' do
-      let(:request_headers)  { unauthenticated_headers }
-
-      it_behaves_like 'accessible show actions' do
-        let(:available_resource_id)  { product_owner_role.hashid }
-        let(:unavailable_resource_id)  { -1 }
-      end
+    it_behaves_like 'restricted show', unauthenticated: true, authenticated: true do
+      let(:available_resource_id)  { product_owner_role.hashid }
+      let(:available_resource_url)  { "#{url_base}/#{available_resource_id}" }
+      let(:unavailable_resource_url)  { "#{url_base}/0" }
     end
   end
 

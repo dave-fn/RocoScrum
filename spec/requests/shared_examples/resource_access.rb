@@ -84,66 +84,45 @@ shared_examples 'unrestricted show' do |url, opts = {}|
 end
 
 
-shared_examples 'accessible show actions' do
-  let(:url)  { "#{url_base}/#{resource_id}" }
-  let(:example_request)  { get url, headers: request_headers }
+shared_examples 'restricted show' do |unauthenticated: false, authenticated: false|
+  context 'as authenticated user' do
+    let(:request_headers)  { authenticated_headers }
 
-  context 'when resource exists' do
-    let(:resource_id)  { available_resource_id }
-
-    it_behaves_like 'accessible resource'
-    it 'returns a single instance' do
-      example_request
-      expect(json_response.dig('data', 'id')).to eq(resource_id.to_s)
+    if authenticated
+      it_behaves_like 'accessible show actions'
+    else
+      it_behaves_like 'unauthorized request'
     end
   end
 
-  context 'when resource does not exist' do
-    let(:resource_id)  { unavailable_resource_id }
-    it_behaves_like 'missing resource'
+  context 'as unauthenticated user' do
+    let(:request_headers)  { unauthenticated_headers }
+
+    if unauthenticated
+      it_behaves_like 'accessible show actions'
+    else
+      it_behaves_like 'unauthorized request'
+    end
   end
 end
 
 
-shared_examples 'restricted show' do |url, opts = {}|
-  require_let_definitions :req_header
+shared_examples 'accessible show actions' do
+  let(:example_request)  { get url, headers: request_headers }
 
-  let(:base_url)  { url }
+  context 'when resource exists' do
+    let(:url)  { available_resource_url }
 
-  context 'as unauthenticated user' do
-    let(:rqst_opts)               { '' }
-    let(:action_unauthenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: req_header }
-
-    it_behaves_like 'unauthorized request', expected_count: opts[:count] do
-      let(:action)  { action_unauthenticated }
+    it_behaves_like 'accessible resource'
+    it 'returns a single instance' do
+      example_request
+      expect(json_response.dig('data', 'id')).to eq(available_resource_id.to_s)
     end
   end
 
-  context 'as authenticated user' do
-    require_let_definitions :user
-    # let(:user)                  { create :user }
-    let(:auth_header)           { req_header.merge(authenticated_header(user)) }
-    let(:rqst_opts)             { '' }
-    let(:action_authenticated)  { get "#{base_url.sub(':id', resource_id.to_s)}", headers: auth_header }
-
-    context 'when resource exists' do
-      it_behaves_like 'accessible resource' do
-        let(:action)  { action_authenticated }
-      end
-
-      it 'returns a single instance' do
-        action_authenticated
-        expect(json_response.dig('data', 'id')).to eq(resource_id.to_s)
-      end
-    end
-
-    context 'when resource does not exist' do
-      let(:resource_id)  { -1 }
-
-      it_behaves_like 'missing resource' do
-        let(:action)  { action_authenticated }
-      end
-    end
+  context 'when resource does not exist' do
+    let(:url)  { unavailable_resource_url }
+    it_behaves_like 'missing resource'
   end
 end
 
@@ -333,21 +312,6 @@ shared_examples 'accessible resource' do |expected_count: nil|
     it it_message do
       expect(json_response['data'].length).to eq expected_count
     end
-
-    # if expected_count == 1 then
-    #   it 'returns a single result' do
-    #     puts "the data is = #{json_response['data']}"
-    #     expect(json_response['data'].length).to eq expected_count
-    #   end
-    # elsif expected_count == 0 then
-    #   it 'returns no results' do
-    #     expect(json_response['data'].length).to eq expected_count
-    #   end
-    # else
-    #   it 'returns list of results' do
-    #     expect(json_response['data'].length).to eq expected_count
-    #   end
-    # end
   end
 end
 
@@ -380,7 +344,7 @@ shared_examples 'updatable resource' do |opts = {}|
 end
 
 
-shared_examples 'missing resource' do |opts = {}|
+shared_examples 'missing resource' do
   before { example_request }
   it('returns an empty hash') { expect(json_response['data']).to eq nil }
   specify { expect(response).to have_http_status :not_found }
@@ -393,28 +357,28 @@ shared_examples 'bad request' do
 end
 
 
-shared_examples 'unauthorized request' do |opts = {}|
+shared_examples 'unauthorized request' do
   before { example_request }
   specify { expect(response).to have_http_status :unauthorized }
   pending 'returns error message'
 end
 
 
-shared_examples 'forbidden request' do |opts = {}|
+shared_examples 'forbidden request' do
   before { example_request }
   specify { expect(response).to have_http_status :forbidden }
   pending 'returns error message'
 end
 
 
-shared_examples 'unprocessable entity request' do |opts = {}|
+shared_examples 'unprocessable entity request' do
   before { example_request }
   specify { expect(response).to have_http_status :unprocessable_entity }
   pending 'returns error message'
 end
 
 
-shared_examples 'bad content type' do |opts = {}|
+shared_examples 'bad content type' do
   before { example_request }
   specify { expect(response).to have_http_status :unsupported_media_type }
   pending 'returns error message'

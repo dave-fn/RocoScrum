@@ -87,21 +87,11 @@ RSpec.describe 'API - Users', type: :request do
     let(:request)  { get url, headers: request_headers }
     let(:url)  { "#{url_base}/#{user_id}" }
 
-    context 'as authenticated user' do
-      let(:request_headers)  { authenticated_headers }
-
-      it_behaves_like 'accessible show actions' do
-        let(:available_resource_id)  { user.hashid }
-        let(:unavailable_resource_id)  { user.id }
-      end
-    end
-
-    context 'as unauthenticated user' do
-      let(:request_headers)  { unauthenticated_headers }
-
-      it_behaves_like 'unauthorized request' do
-        let(:example_request)  { request }
-      end
+    it_behaves_like 'restricted show', unauthenticated: false, authenticated: true do
+      let(:available_resource_id)  { user.hashid }
+      let(:available_resource_url)  { "#{url_base}/#{available_resource_id}" }
+      let(:unavailable_resource_url)  { "#{url_base}/#{user.id}" }
+      let(:example_request)  { request }
     end
   end
 
