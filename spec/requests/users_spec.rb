@@ -3,95 +3,75 @@ require_relative 'shared_examples/resource_access.rb'
 
 RSpec.describe 'API - Users', type: :request do
 
-  let(:api_header)  { api_header_for_version 1 }
+  let(:url_base)  { '/api/users' }
+
+  let(:authenticated_headers)  { api_header authenticate_as: user, for_version: 1 }
+  let(:unauthenticated_headers)  { api_header for_version: 1 }
+  let(:user)  { create :dummy_user }
+  let(:user_id)  { user.hashid }
 
 
   describe 'GET /api/users' do
-
-    let(:base_url)  { '/api/users' }
+    let(:request)  { get url, headers: request_headers }
+    let(:url)  { "#{url_base}?#{url_request_options}" }
+    let(:url_request_options)  { '' }
 
     let!(:user)   { create :dummy_user, name: 'testuser' }
     let!(:users)  { create_list :dummy_user, 3 }
 
-    it_behaves_like 'restricted index', '/api/users', count: 4
+    it_behaves_like 'restricted index', authenticated: true, authenticated_count: 4 do
+      let(:example_request)  { request }
+    end
 
     context 'when filtering' do
-      context 'as unauthenticated user' do
-        let(:rqst_opts)               { '' }
-        let(:action_unauthenticated)  { get "#{base_url}?#{rqst_opts}", headers: api_header }
+      context 'as authenticated user' do
+        let(:request_headers)  { authenticated_headers }
 
         context 'by id' do
           let(:user_id)    { User.last.id }
-          let(:rqst_opts)  { "filter[id]=#{user_id}" }
+          let(:url_request_options)  { "filter[id]=#{user_id}" }
 
-          it_behaves_like 'unauthorized request' do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'accessible resource', expected_count: 0 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by hash_id' do
           let(:user_hash_id)  { User.last.hashid }
-          let(:rqst_opts)     { "filter[id]=#{user_hash_id}" }
+          let(:url_request_options)  { "filter[id]=#{user_hash_id}" }
 
-          it_behaves_like 'unauthorized request' do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'accessible resource', expected_count: 1 do
+            let(:example_request)  { request }
           end
         end
 
-        xcontext 'by email' do
-          let(:rqst_opts)  { 'filter[email]=Developer' }
+        context 'by email' do
+          let(:user_email)  { User.last.email }
+          let(:url_request_options)  { "filter[email]=#{user_email}" }
 
-          it_behaves_like 'unauthorized request' do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'accessible resource', expected_count: 1 do
+            let(:example_request)  { request }
           end
         end
 
         context 'by name' do
-          let(:rqst_opts)  { 'filter[name]=9.99' }
+          let(:url_request_options)  { 'filter[name]=Developer' }
 
-          it_behaves_like 'unauthorized request' do
-            let(:action)  { action_unauthenticated }
+          it_behaves_like 'bad request' do
+            let(:example_request)  { request }
           end
         end
       end
 
-      context 'as authenticated user' do
-        let(:user)                  { create :user }
-        let(:auth_header)           { api_header.merge(authenticated_header(user)) }
-        let(:rqst_opts)             { '' }
-        let(:action_authenticated)  { get "#{base_url}?#{rqst_opts}", headers: auth_header }
-
-        context 'by id' do
-          let(:user_id)    { User.last.id }
-          let(:rqst_opts)  { "filter[id]=#{user_id}" }
-
-          it_behaves_like 'accessible resource', count: 0 do
-            let(:action)  { action_authenticated }
-          end
-        end
+      context 'as unauthenticated user' do
+        let(:request_headers)  { unauthenticated_headers }
 
         context 'by hash_id' do
           let(:user_hash_id)  { User.last.hashid }
           let(:rqst_opts)     { "filter[id]=#{user_hash_id}" }
 
-          it_behaves_like 'accessible resource', count: 1 do
-            let(:action)  { action_authenticated }
-          end
-        end
-
-        xcontext 'by email' do
-          let(:rqst_opts)  { 'filter[email]=Developer' }
-
-          it_behaves_like 'accessible resource', count: 1 do
-            let(:action)  { action_authenticated }
-          end
-        end
-
-        context 'by name' do
-          let(:rqst_opts)  { 'filter[name]=Developer' }
-
-          it_behaves_like 'bad request' do
-            let(:action)  { action_authenticated }
+          it_behaves_like 'unauthorized request' do
+            let(:example_request)  { request }
           end
         end
       end
@@ -100,45 +80,67 @@ RSpec.describe 'API - Users', type: :request do
 
 
   describe 'GET /api/users/:id' do
-    let(:base_url)  { '/api/users/:id' }
+    let(:request)  { get url, headers: request_headers }
+    let(:url)  { "#{url_base}/#{user_id}" }
 
-    let(:user)  { create :dummy_user }
-
-    it_behaves_like 'restricted show', '/api/users/:id' do
-      let(:resource_id)  { user.hashid }
+    it_behaves_like 'restricted show', unauthenticated: false, authenticated: true do
+      let(:available_resource_id)  { user.hashid }
+      let(:available_resource_url)  { "#{url_base}/#{available_resource_id}" }
+      let(:unavailable_resource_url)  { "#{url_base}/#{user.id}" }
+      let(:example_request)  { request }
     end
   end
 
 
   # Preliminary Implementation - Will need to provide mechanism to create users
   describe 'POST /api/users' do
-    let(:base_url)  { '/api/users' }
-    let(:action)    { post base_url, headers: api_header }
+    let(:request)  { post url, headers: request_headers }
+    let(:url)  { url_base }
 
-    specify { expect { action }.to raise_error ActionController::RoutingError }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
   end
 
 
   # Preliminary Implementation - Will need to provide mechanism to update users
   describe 'PUT /api/users/:id' do
-    let(:base_url)  { '/api/users/:id' }
-    let(:action)    { put "#{base_url.sub(':id', user.hashid)}", params: resource_params.to_json, headers: api_header }
+    let(:request)  { put url, params: resource_params, headers: request_headers }
+    let(:url)  { "#{url_base}/#{user_id}" }  
     let(:resource_params)  { {data: {type: 'users', id: user.hashid, attributes: {email: 'test@example.org'}}} }
-    
-    let!(:user)  { create :dummy_user }
 
-    specify { expect { action }.to raise_error ActionController::RoutingError }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
   end
 
 
   # Preliminary Implementation - Will need to provide mechanism to delete users
   describe 'DELETE /api/users/:id' do
-    let(:base_url)  { '/api/users/:id' }
-    let(:action)    { delete "#{base_url.sub(':id', user.hashid)}", headers: api_header }
-    
-    let!(:user)  { create :dummy_user }
+    let(:request)  { delete url, headers: request_headers }
+    let(:url)  { "#{url_base}/#{user_id}" }
 
-    specify { expect { action }.to raise_error ActionController::RoutingError }
+    context 'as authenticated user' do
+      let(:request_headers)  { authenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
+
+    context 'as unauthenticated user' do
+      let(:request_headers)  { unauthenticated_headers }
+      specify { expect { request }.to raise_error ActionController::RoutingError }
+    end
   end
 
 end
