@@ -19,6 +19,10 @@ class User < ApplicationRecord
     {sub: hashid}
   end
 
+  def admin?
+    self.admin != nil
+  end
+
 
   private
 

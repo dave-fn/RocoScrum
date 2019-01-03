@@ -21,4 +21,18 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of(:email).case_insensitive }
   end
 
+
+  describe '#admin?' do
+    let(:admin_user)  { create :dummy_user, admin: (create :user_admin) }
+    let(:regular_user)  { create :dummy_user }
+
+    context 'user has admin access' do
+      specify { expect(admin_user.admin?).to eq true }
+    end
+
+    context 'user without admin access' do
+      specify { expect(regular_user.admin?).to eq false }
+    end
+  end
+
 end
