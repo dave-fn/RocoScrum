@@ -19,5 +19,6 @@ r3 = FactoryBot.create :developer_role
 case Rails.env
 when 'development'
   u1 = FactoryBot.create :dummy_user, name: 'testuser', email: 'testuser@example.org'
+  u2 = FactoryBot.create :user_admin, user: (FactoryBot.create :dummy_user, name: 'testadmin', email: 'testadmin@example.org')
 when 'production'
 end
