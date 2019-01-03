@@ -12,6 +12,8 @@ class User < ApplicationRecord
 
   before_validation { change_case_of_email }
 
+  has_one :admin, dependent: :destroy #, inverse_of: :users
+
   # Knock override
   def to_token_payload
     {sub: hashid}

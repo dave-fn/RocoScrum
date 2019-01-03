@@ -12,6 +12,9 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :password_digest }
   it { should have_db_column :last_logged_at }
 
+  it { should have_one(:admin).dependent(:destroy).optional }
+  # it { should have_one(:admin).dependent(:destroy).inverse_of(:users).optional }
+
   describe 'Uniqueness validations' do
     subject { build(:dummy_user) }
 
