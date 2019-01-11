@@ -16,6 +16,12 @@ r1 = FactoryBot.create :scrum_master_role
 r2 = FactoryBot.create :product_owner_role
 r3 = FactoryBot.create :developer_role
 
+e1 = FactoryBot.create :sprint_event
+e2 = FactoryBot.create :sprint_planning_event
+e3 = FactoryBot.create :sprint_review_event
+e4 = FactoryBot.create :sprint_retrospective_event
+e5 = FactoryBot.create :daily_scrum_event
+
 case Rails.env
 when 'development'
   u1 = FactoryBot.create :dummy_user, name: 'testuser', email: 'testuser@example.org'
