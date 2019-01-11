@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraint.new(version: 1, default: false) do
       jsonapi_resources :roles do
       end
+      jsonapi_resources :events
       jsonapi_resources :users
     end
   end
