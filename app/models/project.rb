@@ -1,3 +1,9 @@
 class Project < ApplicationRecord
-  belongs_to :admin
+
+  include Hashid::Rails
+
+  validates :title, presence: true, length: { minimum: 3 }
+
+  belongs_to :admin, class_name: 'User', inverse_of: :projects
+
 end

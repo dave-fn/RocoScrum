@@ -14,6 +14,10 @@ RSpec.describe User, type: :model do
 
   it { should have_one(:admin).dependent(:destroy).optional }
   # it { should have_one(:admin).dependent(:destroy).inverse_of(:users).optional }
+  
+  # it { should have_many(:projects).with_foreign_key(:admin_id).dependent(:destroy) }
+  it { should have_many(:projects).with_foreign_key(:admin_id).dependent(:destroy).inverse_of(:admin) }
+
 
   describe 'Uniqueness validations' do
     subject { build(:dummy_user) }

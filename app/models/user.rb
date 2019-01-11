@@ -13,6 +13,8 @@ class User < ApplicationRecord
   before_validation { change_case_of_email }
 
   has_one :admin, dependent: :destroy #, inverse_of: :users
+  has_many :projects, dependent: :destroy, foreign_key: 'admin_id', inverse_of: :admin
+
 
   # Knock override
   def to_token_payload

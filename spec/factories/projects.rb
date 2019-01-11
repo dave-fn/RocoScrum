@@ -1,7 +1,9 @@
 FactoryBot.define do
+
   factory :project do
-    title { "MyString" }
-    description { "MyText" }
+    title { Faker::Device.model_name }
+    description { Faker::Lorem.paragraph }
     admin { nil }
   end
+
 end
