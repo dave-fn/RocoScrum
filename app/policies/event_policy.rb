@@ -13,4 +13,5 @@ class EventPolicy < ApplicationPolicy
       scope.all
     end
   end
+  
 end

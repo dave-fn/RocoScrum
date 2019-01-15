@@ -34,6 +34,8 @@ class ApplicationPolicy
     false
   end
 
+
+  # Helper Methods
   def authenticated_user?
     !unauthenticated_user?
   end

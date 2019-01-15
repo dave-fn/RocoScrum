@@ -13,4 +13,5 @@ class RolePolicy < ApplicationPolicy
       scope.all
     end
   end
+  
 end
