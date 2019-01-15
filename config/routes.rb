@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       end
       jsonapi_resources :events
       jsonapi_resources :users
+      jsonapi_resources :projects
     end
   end
   

@@ -34,6 +34,15 @@ class ApplicationPolicy
     false
   end
 
+  def authenticated_user?
+    !unauthenticated_user?
+  end
+
+  def unauthenticated_user?
+    user.nil?
+  end
+  
+
   class Scope
     attr_reader :user, :scope
 
