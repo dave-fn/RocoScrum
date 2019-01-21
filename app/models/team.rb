@@ -1,3 +1,7 @@
 class Team < ApplicationRecord
-  belongs_to :project
+
+  include Hashid::Rails
+
+  belongs_to :project, inverse_of: :teams
+
 end

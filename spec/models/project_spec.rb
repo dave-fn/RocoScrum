@@ -5,6 +5,7 @@ RSpec.describe Project, type: :model do
   it { should validate_presence_of :title }
 
   it { should belong_to(:admin).class_name('User').inverse_of(:projects).required }
+  it { should have_many(:teams).inverse_of(:project) }
 
   # describe 'factories' do
   #   describe 'project' do
