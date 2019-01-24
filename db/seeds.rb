@@ -29,6 +29,15 @@ when 'development'
   FactoryBot.create :user_admin, user: u2
 
   FactoryBot.create_list :project, 3, admin: u1
-  FactoryBot.create :project, admin: u2
+  p1 = FactoryBot.create :project, admin: u2
+
+  t1 = FactoryBot.create :team, project: p1
+  scrum_master_user = FactoryBot.create :dummy_user, name: 'scrum_master'
+  tmember1 = FactoryBot.create :team_membership, team: t1, user: scrum_master_user, role: r1
+
+  1.upto(3) do |i|
+    developer_user = FactoryBot.create :dummy_user, name: "developer-#{i}"
+    tmember = FactoryBot.create :team_membership, team: t1, user: developer_user, role: r3
+  end
 when 'production'
 end
