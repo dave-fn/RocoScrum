@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_11_192556) do
+ActiveRecord::Schema.define(version: 2019_01_21_235152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,24 @@ ActiveRecord::Schema.define(version: 2019_01_11_192556) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "team_memberships", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_team_memberships_on_role_id"
+    t.index ["team_id"], name: "index_team_memberships_on_team_id"
+    t.index ["user_id"], name: "index_team_memberships_on_user_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_teams_on_project_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -60,4 +78,8 @@ ActiveRecord::Schema.define(version: 2019_01_11_192556) do
 
   add_foreign_key "admins", "users"
   add_foreign_key "projects", "users", column: "admin_id"
+  add_foreign_key "team_memberships", "roles"
+  add_foreign_key "team_memberships", "teams"
+  add_foreign_key "team_memberships", "users"
+  add_foreign_key "teams", "projects"
 end

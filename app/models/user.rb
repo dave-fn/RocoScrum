@@ -12,8 +12,12 @@ class User < ApplicationRecord
 
   before_validation { change_case_of_email }
 
-  has_one :admin, dependent: :destroy #, inverse_of: :users
+  has_one :admin, dependent: :destroy, inverse_of: :user
   has_many :projects, dependent: :destroy, foreign_key: 'admin_id', inverse_of: :admin
+
+  has_many :team_memberships, inverse_of: :user
+  has_many :teams, through: :team_memberships
+  has_many :roles, through: :team_memberships
 
 
   # Knock override
