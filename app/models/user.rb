@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :teams, through: :team_memberships
   has_many :roles, through: :team_memberships
 
+  scope :admins, -> { joins(:admin) }
 
   # Knock override
   def to_token_payload
