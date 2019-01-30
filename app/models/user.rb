@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   has_one :admin, dependent: :destroy, inverse_of: :user
   has_many :projects, dependent: :destroy, foreign_key: 'admin_id', inverse_of: :admin
+  has_many :admin_teams, through: :projects, source: :teams, class_name: 'Team'
 
   has_many :team_memberships, inverse_of: :user
   has_many :teams, through: :team_memberships
