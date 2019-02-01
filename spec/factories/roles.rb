@@ -1,17 +1,19 @@
 FactoryBot.define do
 
   factory :role do
+    name { Faker::Job.title }
+    description { name }
     min_participants { 1 }
     max_participants { 1 }
 
     trait :scrum_master do
       name { 'Scrum Master' }
-      description { 'Scrum Master' }
+      # description { 'Scrum Master' }
     end
 
     trait :product_owner do
       name { 'Product Owner' }
-      description { 'Product Owner' }
+      # description { 'Product Owner' }
     end
 
     trait :developer do

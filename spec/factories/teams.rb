@@ -1,7 +1,7 @@
 FactoryBot.define do
 
   factory :team do
-    project { nil }
+    project
   end
   
 end
