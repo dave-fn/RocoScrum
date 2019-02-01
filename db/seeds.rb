@@ -25,19 +25,9 @@ e5 = FactoryBot.create :daily_scrum_event
 case Rails.env
 when 'development'
   u1 = FactoryBot.create :dummy_user, name: 'testuser', email: 'testuser@example.org'
-  u2 = FactoryBot.create :dummy_user, name: 'testadmin', email: 'testadmin@example.org'
-  FactoryBot.create :user_admin, user: u2
+  u2 = FactoryBot.create :admin_user, name: 'testadmin', email: 'testadmin@example.org'
 
   FactoryBot.create_list :project, 3, admin: u1
-  p1 = FactoryBot.create :project, admin: u2
-
-  t1 = FactoryBot.create :team, project: p1
-  scrum_master_user = FactoryBot.create :dummy_user, name: 'scrum_master'
-  tmember1 = FactoryBot.create :team_membership, team: t1, user: scrum_master_user, role: r1
-
-  1.upto(3) do |i|
-    developer_user = FactoryBot.create :dummy_user, name: "developer-#{i}"
-    tmember = FactoryBot.create :team_membership, team: t1, user: developer_user, role: r3
-  end
+  t1 = FactoryBot.create :working_team, developer_count: 4
 when 'production'
 end
