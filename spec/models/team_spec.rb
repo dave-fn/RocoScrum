@@ -14,7 +14,7 @@ RSpec.describe Team, type: :model do
 
   context 'concrete instances' do
     let(:team)  { create :working_team, developer_count: developer_count }
-    let!(:roles)  { create :scrum_master_role; create :developer_role, max_participants: 7 }
+    let!(:roles)  { create :scrum_master_role; create :developer_role, min_participants: 3, max_participants: 7 }
 
     describe '#size' do
       let(:developer_count)  { 7 }
@@ -47,10 +47,17 @@ RSpec.describe Team, type: :model do
 
       context 'developers' do
         context 'under minimum' do
-          let(:developer_count)  { 0 }
+          let(:developer_count)  { 2 }
 
-          specify { expect(team).to be_valid }
-          pending 'set flag to mark non-compliant as intermediate state -- aside from valid'
+          specify { expect(team).to_not be_valid }
+          # pending 'set flag to mark non-compliant as intermediate state -- aside from valid'
+
+          context 'due to removing' do
+            let(:developer_count)  { 3 }
+            let(:parting_dev)  { team.developers.first }
+
+            pending { expect { team.developers.destroy(parting_dev) }.to raise_error Team::Errors::MinDevelopers }
+          end
         end
 
         context 'within limits' do
@@ -62,7 +69,8 @@ RSpec.describe Team, type: :model do
         context 'over maximum' do
           let(:developer_count)  { 10 }
 
-          specify { expect { team }.to raise_error Team::Errors::MaxDevelopers }
+          pending { expect { team }.to raise_error Team::Errors::MaxDevelopers }
+          specify { expect(team).to_not be_valid }
         end
       end
 
