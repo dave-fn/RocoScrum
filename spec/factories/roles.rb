@@ -5,15 +5,16 @@ FactoryBot.define do
     description { name }
     min_participants { 1 }
     max_participants { 1 }
+    initialize_with { Role.where(name: name).first_or_create }
 
     trait :scrum_master do
       name { 'Scrum Master' }
-      # description { 'Scrum Master' }
+      description { 'Scrum Master' }
     end
 
     trait :product_owner do
       name { 'Product Owner' }
-      # description { 'Product Owner' }
+      description { 'Product Owner' }
     end
 
     trait :developer do
