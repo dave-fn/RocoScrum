@@ -4,12 +4,22 @@ FactoryBot.define do
     project
 
     trait :with_scrum_master do
-      scrum_master
+      before(:create) do
+        create :scrum_master_role
+      end
+
+      after(:create) do |t, evaluator|
+        t.scrum_master = create :scrum_master
+      end
     end
 
     trait :with_developers do
       transient do
         developer_count { 3 }
+      end
+
+      before(:create) do
+        create :developer_role
       end
 
       after(:create) do |t, evaluator|

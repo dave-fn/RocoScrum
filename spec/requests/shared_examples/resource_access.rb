@@ -85,8 +85,10 @@ end
 shared_examples 'creatable resource' do |opts = {}|
   before { example_request }
   specify { expect(response).to have_http_status :created }
-  it 'creates resource' do
-    expect(json_response.dig('data', 'attributes', opts[:fields][:name])).to eq(opts[:fields][:value])
+  if opts[:fields]
+    it 'creates resource' do
+      expect(json_response.dig('data', 'attributes', opts[:fields][:name])).to eq(opts[:fields][:value])
+    end
   end
 end
 
@@ -94,8 +96,10 @@ end
 shared_examples 'updatable resource' do |opts = {}|
   before { example_request }
   it('returns updated resource') { expect(json_response.dig('data', 'id')).to eq resource_id }
-  it 'updates resource' do
-    expect(json_response.dig('data', 'attributes', opts[:fields][:name])).to eq(opts[:fields][:value])
+  if opts[:fields]
+    it 'updates resource' do
+      expect(json_response.dig('data', 'attributes', opts[:fields][:name])).to eq(opts[:fields][:value])
+    end
   end
   specify { expect(response).to have_http_status :ok }
 end
