@@ -10,7 +10,7 @@ RSpec.describe Project, type: :model do
   # describe 'factories' do
   #   describe 'project' do
   #     let(:project)  { build :project, admin: user }
-  #     let(:user)   { build :dummy_user }
+  #     let(:user)   { build :user }
 
   #     specify { expect(project.title).to be_a String }
   #     specify { expect(project.description).to be_a String }

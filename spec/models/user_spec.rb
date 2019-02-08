@@ -23,7 +23,7 @@ RSpec.describe User, type: :model do
 
 
   describe 'Uniqueness validations' do
-    subject { build(:dummy_user) }
+    subject { build(:user) }
 
     it { should validate_uniqueness_of(:email).case_insensitive }
   end
@@ -31,7 +31,7 @@ RSpec.describe User, type: :model do
 
   describe '#admin?' do
     let(:admin_user)  { create :user, :as_admin }
-    let(:regular_user)  { create :dummy_user }
+    let(:regular_user)  { create :user }
 
     context 'user has admin access' do
       specify { expect(admin_user.admin?).to eq true }
@@ -46,7 +46,7 @@ RSpec.describe User, type: :model do
   describe '#developer?' do
     let(:developer_user)  { team.developers.first }
     let(:team)  { create :working_team, developer_count: 2 }
-    let(:regular_user)  { create :dummy_user }
+    let(:regular_user)  { create :user }
 
     context 'user is a developer member on any team' do
       specify { expect(developer_user.developer?).to eq true }
@@ -61,7 +61,7 @@ RSpec.describe User, type: :model do
   describe '#scrum_master?' do
     let(:scrum_master_user)  { team.scrum_master }
     let(:team)  { create :working_team, developer_count: 1 }
-    let(:regular_user)  { create :dummy_user }
+    let(:regular_user)  { create :user }
 
     context 'user is the scrum master on any team' do
       specify { expect(scrum_master_user.scrum_master?).to eq true }
@@ -76,7 +76,7 @@ RSpec.describe User, type: :model do
   describe '#project_admin?' do
     let(:project_admin_user)  { team.project.admin }
     let(:team)  { create :working_team, developer_count: 1 }
-    let(:regular_user)  { create :dummy_user }
+    let(:regular_user)  { create :user }
 
     context 'user is the project admin on any team' do
       specify { expect(project_admin_user.project_admin?).to eq true }

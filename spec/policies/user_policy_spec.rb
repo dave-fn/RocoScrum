@@ -6,7 +6,7 @@ RSpec.describe UserPolicy do
 
   let(:resolved_scope)  { described_class::Scope.new(user, User.all).resolve }
 
-  let!(:all_users)  { create_list :dummy_user, 5 }
+  let!(:all_users)  { create_list :user, 5 }
 
   context 'as unauthenticated user' do
     let(:user)  { nil }
@@ -20,7 +20,7 @@ RSpec.describe UserPolicy do
   end
 
   context 'as authenticated user' do
-    let(:user) { create :dummy_user }
+    let(:user) { create :user }
 
     it { is_expected.to permit_action :index }
     it { is_expected.to permit_action :show }
@@ -40,7 +40,7 @@ RSpec.describe UserPolicy do
     end
 
     context 'as authenticated user' do
-      let(:user)  { create :dummy_user }
+      let(:user)  { create :user }
 
       it 'includes all users' do
         expect(resolved_scope).to include *all_users

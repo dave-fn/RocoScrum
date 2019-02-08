@@ -7,7 +7,7 @@ RSpec.describe 'API - Roles', type: :request do
 
   let(:authenticated_headers)  { api_header authenticate_as: user, for_version: 1 }
   let(:unauthenticated_headers)  { api_header for_version: 1 }
-  let(:user)  { create :dummy_user }
+  let(:user)  { create :user }
 
 
   describe 'GET /api/roles' do

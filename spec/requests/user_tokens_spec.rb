@@ -8,7 +8,7 @@ RSpec.describe 'API - User Tokens', type: :request do
   describe 'POST /api/user_token' do
     let(:request)  { post url, params: credentials }
     let(:url)  { url_base }
-    let(:user)  { create :dummy_user }
+    let(:user)  { create :user }
 
     context 'as authenticated user' do
       let(:credentials)  { {'auth' => {'email' => user.email, 'password' => user.password}} }

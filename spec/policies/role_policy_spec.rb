@@ -23,7 +23,7 @@ RSpec.describe RolePolicy do
   end
 
   context 'as authenticated user' do
-    let(:user) { create :dummy_user }
+    let(:user) { create :user }
 
     it { is_expected.to permit_action :index }
     it { is_expected.to permit_action :show }
@@ -43,7 +43,7 @@ RSpec.describe RolePolicy do
     end
 
     context 'as authenticated user' do
-      let(:user)  { create :dummy_user }
+      let(:user)  { create :user }
 
       it 'includes all roles' do
         expect(resolved_scope).to eq scrum_roles

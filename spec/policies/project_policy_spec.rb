@@ -11,7 +11,7 @@ RSpec.describe ProjectPolicy do
 
   context 'as unauthenticated user' do
     let(:user)  { nil }
-    let(:project_admin)  { create :dummy_user }
+    let(:project_admin)  { create :user }
 
     it { is_expected.to forbid_action :index }
     it { is_expected.to forbid_action :show }
@@ -22,9 +22,9 @@ RSpec.describe ProjectPolicy do
 
   context 'as authenticated user' do
     context 'for non-administered project' do
-      let(:user)  { create :dummy_user }
+      let(:user)  { create :user }
       let(:extra_project)  { create :project, admin: user }
-      let(:project_admin)  { create :dummy_user }
+      let(:project_admin)  { create :user }
 
       it { is_expected.to permit_action :index }
       it { is_expected.to permit_new_and_create_actions }
@@ -42,7 +42,7 @@ RSpec.describe ProjectPolicy do
 
     context 'for administered project' do
       let(:user)  { project_admin }
-      let(:project_admin)  { create :dummy_user }
+      let(:project_admin)  { create :user }
 
       it { is_expected.to permit_action :index }
       it { is_expected.to permit_action :show }

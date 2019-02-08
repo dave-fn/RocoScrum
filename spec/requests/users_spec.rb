@@ -7,7 +7,7 @@ RSpec.describe 'API - Users', type: :request do
 
   let(:authenticated_headers)  { api_header authenticate_as: user, for_version: 1 }
   let(:unauthenticated_headers)  { api_header for_version: 1 }
-  let(:user)  { create :dummy_user }
+  let(:user)  { create :user }
   let(:user_id)  { user.hashid }
 
 
@@ -16,8 +16,8 @@ RSpec.describe 'API - Users', type: :request do
     let(:url)  { "#{url_base}?#{url_request_options}" }
     let(:url_request_options)  { '' }
 
-    let!(:user)   { create :dummy_user, name: 'testuser' }
-    let!(:users)  { create_list :dummy_user, 3 }
+    let!(:user)   { create :user, name: 'testuser' }
+    let!(:users)  { create_list :user, 3 }
 
     it_behaves_like 'restricted index', authenticated: true, authenticated_count: 4 do
       let(:example_request)  { request }

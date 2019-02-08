@@ -7,7 +7,7 @@ RSpec.describe 'API - Teams', type: :request do
 
   let(:authenticated_headers)  { api_header authenticate_as: user, for_version: 1 }
   let(:unauthenticated_headers)  { api_header for_version: 1 }
-  let(:user)  { create :dummy_user }
+  let(:user)  { create :user }
   let(:project_admin)  { user }
 
 
@@ -191,7 +191,7 @@ RSpec.describe 'API - Teams', type: :request do
       end
 
       context 'as unauthorized user' do
-        let(:project_admin)  { create :dummy_user }
+        let(:project_admin)  { create :user }
 
         it_behaves_like 'forbidden request' do
           let(:example_request)  { request }

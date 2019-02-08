@@ -1,21 +1,23 @@
 FactoryBot.define do
 
   factory :user, aliases: [:member, :product_owner] do
-    name { Faker::Internet.username(8..15) }
-    email { Faker::Internet.safe_email }
-    password { Faker::Internet.password }
 
-    trait :matching_fields do
-      email { Faker::Internet.safe_email(name) }
-      password { name }
-    end
+    sequence(:name) { |n| "regular-user-#{n}" }
+    email { "#{name}@example.org" }
+    password { name }
 
     trait :sequenced_fields do
       transient do
         base_name { 'user_id' }
       end
 
-      sequence(:name) { |n| "#{base_name}_#{n} "}
+      sequence(:name) { |n| "#{base_name}-#{n} "}
+    end
+
+    trait :random_fields do
+      name { Faker::Internet.username(8..15) }
+      email { Faker::Internet.safe_email }
+      password { Faker::Internet.password }
     end
 
     trait :as_admin do
@@ -24,21 +26,16 @@ FactoryBot.define do
       end
     end
 
-    factory :dummy_user, traits: [:matching_fields]
-
-    # not really a scrum master user
-    factory :scrum_master do
-      sequence(:name) { |n| "scrum_master_#{n}" }
+    trait :scrum_master_name do
+      sequence(:name) { |n| "scrum-master-#{n}" }
     end
 
-    # not really a developer user
-    factory :developer do
-      sequence(:name) { |n| "developer_#{n}" }
+    trait :developer_name do
+      sequence(:name) { |n| "developer-#{n}" }
     end
 
-    # not really a project admin user
-    factory :project_admin do
-      sequence(:name) { |n| "project_admin_#{n}" }
+    trait :project_admin_name do
+      sequence(:name) { |n| "project-admin-#{n}" }
     end
 
     factory :admin_user, traits: [:as_admin]

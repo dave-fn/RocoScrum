@@ -9,7 +9,7 @@ FactoryBot.define do
       end
 
       after(:create) do |t, evaluator|
-        t.scrum_master = create :scrum_master
+        t.scrum_master = create :user, :scrum_master_name
       end
     end
 
@@ -23,7 +23,7 @@ FactoryBot.define do
       end
 
       after(:create) do |t, evaluator|
-        t.developers = create_list :developer, evaluator.developer_count
+        t.developers = create_list :user, evaluator.developer_count, :developer_name
       end
     end
 
