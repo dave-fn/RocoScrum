@@ -2,17 +2,36 @@ class Api::V1::ResourceBase < JSONAPI::Resource
 
   abstract
 
-  def self.hide_id(with:, restore:, type: :integer)
-    self.key_type type
-    define_method(:id) { @model.send(with) }
-    filter :id, verify: :verify_keys,
-      apply: -> (records, value, options) do
-        records.where id: restore.call(value)
-      end
-  end
+  def self.key_by_hashid
+    key_type :string
 
-  def self.hide_id_with_hash_id
-    hide_id with: :hashid, type: :string, restore: -> value { _model_class.decode_id value }
+    filter :id,
+      verify: :verify_keys,
+      apply: -> (records, value, options) do
+        records.where(id: value)
+      end
+
+    def self.find_by_key(key, options = {})
+      begin
+        model = _model_class.find(key)
+      rescue ActiveRecord::RecordNotFound
+        fail JSONAPI::Exceptions::RecordNotFound.new(key)
+      end
+      self.resource_for_model(model).new(model, options[:context])
+    end
+
+    def self.verify_key(key, context = nil)
+      _model_class.decode_id(key)
+    end
+
+    def default_hashid
+      ''
+    end
+
+    def id
+      return default_hashid if @model.id == nil
+      @model.hashid
+    end
   end
 
 end

@@ -150,20 +150,3 @@ shared_examples 'bad content type' do
   specify { expect(response).to have_http_status :unsupported_media_type }
   pending 'returns error message'
 end
-
-
-
-# Helpers
-def require_let_definitions(*keys)
-  keys.each do |key|
-    it "(example requires let block for #{key})" do
-      ## https://stackoverflow.com/questions/48588739/rspec-how-to-pass-a-let-variable-as-a-parameter-to-shared-examples
-      temp_config = RSpec::Expectations.configuration.on_potential_false_positives
-      RSpec::Expectations.configuration.on_potential_false_positives = :nothing
-
-      expect { send(key) }.to_not raise_error NameError
-
-      RSpec::Expectations.configuration.on_potential_false_positives = temp_config
-    end
-  end
-end
