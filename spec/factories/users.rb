@@ -26,14 +26,17 @@ FactoryBot.define do
 
     factory :dummy_user, traits: [:matching_fields]
 
+    # not really a scrum master user
     factory :scrum_master do
       sequence(:name) { |n| "scrum_master_#{n}" }
     end
 
+    # not really a developer user
     factory :developer do
       sequence(:name) { |n| "developer_#{n}" }
     end
 
+    # not really a project admin user
     factory :project_admin do
       sequence(:name) { |n| "project_admin_#{n}" }
     end

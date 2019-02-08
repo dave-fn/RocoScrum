@@ -22,13 +22,27 @@ class User < ApplicationRecord
 
   scope :admins, -> { joins(:admin) }
 
+
   # Knock override
   def to_token_payload
     {sub: hashid}
   end
 
+
   def admin?
     self.admin != nil
+  end
+
+  def developer?
+    roles.include? Role.developer
+  end
+
+  def scrum_master?
+    roles.include? Role.scrum_master
+  end
+
+  def project_admin?
+    projects.any? { |proj| proj.admin == self }
   end
 
 
