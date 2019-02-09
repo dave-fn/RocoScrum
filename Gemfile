@@ -41,7 +41,7 @@ gem 'knock', '~> 2.1'
 gem 'jsonapi-resources', '~> 0.9.0'
 
 # JSON API Authorization
-gem 'jsonapi-authorization', '= 1.0.0.beta2'
+gem 'jsonapi-authorization', '~> 1.0'
 
 # Hashids
 gem 'hashid-rails', '~> 1.2'
