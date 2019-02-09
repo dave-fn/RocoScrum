@@ -20,7 +20,7 @@ gem 'puma', '~> 3.11'
 # gem 'redis', '~> 4.0'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -34,11 +34,17 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+# Authentication - JWT
+gem 'knock', '~> 2.1'
+
 # JSON API spec
 gem 'jsonapi-resources', '~> 0.9.0'
 
 # JSON API Authorization
 gem 'jsonapi-authorization', '= 1.0.0.beta2'
+
+# Hashids
+gem 'hashid-rails', '~> 1.2'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
@@ -75,6 +81,12 @@ group :test do
 
   # Faker
   gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
+
+  # Pundit Matchers
+  gem 'pundit-matchers', '~> 1.6.0'
+
+  # SimpleCov
+  gem 'simplecov'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

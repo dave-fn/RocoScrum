@@ -17,6 +17,9 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# JSON API Monkey Patch / Hack
+require_relative '../lib/extensions/jsonapi'
+
 module RocoScrum
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

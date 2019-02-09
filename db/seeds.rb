@@ -5,3 +5,30 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+require 'database_cleaner'
+require 'factory_bot_rails'
+require 'faker'
+
+DatabaseCleaner.clean_with :truncation
+
+r1 = FactoryBot.create :scrum_master_role
+r2 = FactoryBot.create :product_owner_role
+r3 = FactoryBot.create :developer_role
+
+e1 = FactoryBot.create :sprint_event
+e2 = FactoryBot.create :sprint_planning_event
+e3 = FactoryBot.create :sprint_review_event
+e4 = FactoryBot.create :sprint_retrospective_event
+e5 = FactoryBot.create :daily_scrum_event
+
+case Rails.env
+when 'development'
+  u1 = FactoryBot.create :user, name: 'testuser', email: 'testuser@example.org'
+  u2 = FactoryBot.create :admin_user, name: 'testadmin', email: 'testadmin@example.org'
+
+  pp = FactoryBot.create_list :project, 3, admin: u1
+  t1 = FactoryBot.create :working_team, developer_count: 4, project: pp.first
+  t2 = FactoryBot.create :working_team, developer_count: 3
+when 'production'
+end
