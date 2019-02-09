@@ -15,8 +15,8 @@ class Team < ApplicationRecord
   
   # Developers
   has_many :developers_membership, -> { developers }, class_name: 'TeamMembership', dependent: :destroy
-  has_many :developers, through: :developers_membership, source: :user#,
-    # before_add: :limit_adding_developer, before_remove: :limit_removing_developer
+  has_many :developers, through: :developers_membership, source: :user
+    #, before_add: :limit_adding_developer, before_remove: :limit_removing_developer
 
   validates_each :developers do |record, attribute, value|
     if value.present?

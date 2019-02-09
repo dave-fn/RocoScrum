@@ -7,9 +7,15 @@ class Role < ApplicationRecord
   validates :min_participants, presence: true, numericality: { greater_than_or_equal_to: 1 }
   validates :max_participants, presence: true, numericality: { greater_than_or_equal_to: 1 }
 
-  scope :scrum_master, -> { find_by(name: 'Scrum Master') }
-  scope :product_owner, -> { find_by(name: 'Product Owner') }
-  scope :developer , -> { find_by(name: 'Developer') }
+  scope :scrum_master, -> do
+    @scrum_master_role ||= find_or_create_by(name: 'Scrum Master') { |r| r.description = r.name }
+  end
+  scope :product_owner, -> do
+    @product_owner_role ||= find_or_create_by(name: 'Product Owner') { |r| r.description = r.name }
+  end
+  scope :developer, -> do
+    @developer_role ||= find_or_create_by(name: 'Developer') { |r| r.description = r.name }
+  end
 
   has_many :team_memberships, inverse_of: :role
   has_many :teams, through: :team_memberships
