@@ -1,0 +1,143 @@
+AllCops:
+  Exclude:
+    - '**/templates/**/*'
+    - '**/vendor/**/*'
+    - 'actionpack/lib/action_dispatch/journey/parser.rb'
+    - 'railties/test/fixtures/tmp/**/*'
+    - 'node_modules/**/*'
+    # Additional exclude files by rubocop-rails_config
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+
+Rails:
+  Enabled: true
+
+Bundler/OrderedGems:
+  Enabled: false
+
+
+## Metrics
+Metrics/LineLength:
+  Max: 130
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ClassLength:
+  Max: 1500
+
+
+## Layout
+Layout/EmptyLines:
+  Enabled: false
+
+Layout/EmptyLineBetweenDefs:
+  NumberOfEmptyLines: 1
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines
+  Exclude:
+    - '**/*_spec.rb'
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines
+  Exclude:
+    - '**/*_spec.rb'
+
+Layout/SpaceInsideParens:
+  Enabled: false
+
+Layout/IndentationWidth:
+  IgnoredPatterns: ['^s*module']
+
+Layout/EndAlignment:
+  Enabled: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: space
+  Exclude:
+    - '**/*_spec.rb'
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+  Include:
+    - '**/*_spec.rb'
+
+Layout/TrailingBlankLines:
+  EnforcedStyle: final_newline
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+
+## Style
+Style/TrailingBodyOnModule:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/BarePercentLiterals:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/UnlessElse:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/PreferredHashMethods:
+  EnforcedStyle: verbose
+
+Style/WordArray:
+  Enabled: true
+
+Style/Lambda:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/BracesAroundHashParameters:
+  Enabled: true
+  EnforcedStyle: context_dependent
+
+Style/BlockComments:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+
+## RSpec
+Layout/ExtraSpacing:
+  Enabled: true
+  Exclude:
+    - '**/*_spec.rb'
+    - '**/shared_examples/**/*.rb'
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - '**/*_spec.rb'
+    - '**/spec/factories/**/*.rb'
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: true
+  Exclude:
+    - '**/*_spec.rb'
+    - '**/spec/factories/**/*.rb'
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: true
+  Exclude:
+  - '**/*_spec.rb'    
+
+
+## Temporary
+Style/Documentation:
+  Enabled: false
