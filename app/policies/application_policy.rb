@@ -43,8 +43,17 @@ class ApplicationPolicy
   def unauthenticated_user?
     user.nil?
   end
+
+  def admin_user?
+    authenticated_user? && user.admin?
+  end
   
 
+  # Strong Parameters
+  # def permitted_attributes
+  # end
+  
+  
   class Scope
     attr_reader :user, :scope
 

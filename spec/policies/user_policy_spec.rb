@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe UserPolicy do
 
-  subject { described_class.new user, described_class }
+  subject { described_class.new user, record_user }
 
   let(:resolved_scope)  { described_class::Scope.new(user, User.all).resolve }
 
-  let!(:all_users)  { create_list :user, 5 }
+  let(:all_users)  { create_list :user, 5 }
+  let(:record_user)  { all_users.last }
 
   context 'as unauthenticated user' do
     let(:user)  { nil }
@@ -25,9 +26,20 @@ RSpec.describe UserPolicy do
     it { is_expected.to permit_action :index }
     it { is_expected.to permit_action :show }
 
-    it { is_expected.to forbid_new_and_create_actions }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_action :destroy }
+    context 'affecting self' do
+      let(:record_user)  { user }
+
+      it { is_expected.to permit_edit_and_update_actions }
+
+      it { is_expected.to forbid_new_and_create_actions }
+      it { is_expected.to forbid_action :destroy }
+    end
+
+    context 'affecting others' do
+      it { is_expected.to forbid_new_and_create_actions }
+      it { is_expected.to forbid_edit_and_update_actions }
+      it { is_expected.to forbid_action :destroy }
+    end
   end
 
   permissions '.scope' do

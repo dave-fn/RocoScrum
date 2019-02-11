@@ -27,8 +27,8 @@ when 'development'
   u1 = FactoryBot.create :user, name: 'testuser', email: 'testuser@example.org'
   u2 = FactoryBot.create :admin_user, name: 'testadmin', email: 'testadmin@example.org'
 
-  pp = FactoryBot.create_list :project, 3, admin: u1
-  t1 = FactoryBot.create :working_team, developer_count: 4, project: pp.first
-  t2 = FactoryBot.create :working_team, developer_count: 3
+  pp = FactoryBot.create_list :project, 3
+  t1 = FactoryBot.create(:working_team, developer_count: 4, project: FactoryBot.create(:project, admin: u1))
+  t2 = FactoryBot.create :working_team, developer_count: 3, project: pp.first
 when 'production'
 end

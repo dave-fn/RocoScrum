@@ -4,14 +4,19 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def update?
+    self? || admin_user?
+  end
+
   def show?
     true
   end
 
 
-  # Strong Parameters
-  def permitted_attributes
-    [:name, :email, :password, :password_confirmation, :projects]
+  private
+
+  def self?
+    user == record
   end
 
   

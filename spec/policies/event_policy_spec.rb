@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe EventPolicy do
 
+  # FIXME Pass instance as record, not class
   subject { described_class.new user, described_class }
 
   let(:resolved_scope)  { described_class::Scope.new(user, Event.all).resolve }

@@ -21,18 +21,6 @@ class TeamPolicy < ApplicationPolicy
   end
 
 
-  # Relationships
-  # def create_with_admin?(admin)
-  #   user == admin
-  # end
-
-
-  # Strong Parameters
-  # def permitted_attributes
-  #   []
-  # end
-
-
   private
 
   def owned_by_user?
@@ -42,7 +30,13 @@ class TeamPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.joins(project: :admin).where(projects: {admin: user})
+      if user.admin?
+        scope.all
+      else
+        # scope.joins(project: :admin).where(projects: {admin: user})
+        # scope.joins(project: :admin).merge(Project.admin_by user)
+        scope.joins(:project).merge(Project.admin_by user)
+      end
     end
   end
 

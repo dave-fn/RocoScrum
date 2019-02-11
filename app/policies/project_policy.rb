@@ -21,16 +21,34 @@ class ProjectPolicy < ApplicationPolicy
   end
 
 
-  # Relationships
+  # Relationships - Admin
   def create_with_admin?(admin)
-    user == admin
+    user == admin || admin_user?
   end
 
-
-  # Strong Parameters
-  def permitted_attributes
-    [:title, :description, :admin]
+  def replace_admin?(admin)
+    admin_user?
   end
+
+  def remove_admin?(admin)
+    false
+  end
+
+  # Relationships - Teams
+  def add_to_teams?(teams)
+    owned_by_user? || admin_user?
+  end
+
+  def remove_from_teams?(teams)
+    owned_by_user? || admin_user?
+  end
+
+  def replace_teams?(teams)
+    owned_by_user? || admin_user?
+  end
+
+  # def create_with_teams?(teams)
+  # end
 
 
   private
@@ -42,7 +60,11 @@ class ProjectPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.where(admin: user)
+      if user.admin?
+        scope.all
+      else
+        scope.admin_by(user)
+      end
     end
   end
 

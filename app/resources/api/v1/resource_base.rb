@@ -34,4 +34,8 @@ class Api::V1::ResourceBase < JSONAPI::Resource
     end
   end
 
+  def self.context_user_key
+    :user
+  end
+  
 end
