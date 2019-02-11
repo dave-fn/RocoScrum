@@ -55,6 +55,9 @@ group :development do
 
   # Better Errors
   gem 'better_errors', '~> 2.5'
+
+  # RuboCop
+  gem 'rubocop', '~> 0.64.0', require: false
 end
 
 group :development, :test do
