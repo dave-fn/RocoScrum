@@ -2,6 +2,11 @@ class Api::V1::ResourceBase < JSONAPI::Resource
 
   abstract
 
+  module Constants
+    CONTEXT_USER_KEY = :key
+    DEFAULT_HASHID = ''
+  end
+
   def self.key_by_hashid
     key_type :string
 
@@ -25,7 +30,7 @@ class Api::V1::ResourceBase < JSONAPI::Resource
     end
 
     def default_hashid
-      ''
+      Constants::DEFAULT_HASHID
     end
 
     def id
@@ -35,7 +40,7 @@ class Api::V1::ResourceBase < JSONAPI::Resource
   end
 
   def self.context_user_key
-    :user
+    Constants::CONTEXT_USER_KEY
   end
   
 end
