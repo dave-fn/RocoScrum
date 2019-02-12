@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPolicy < ApplicationPolicy
 
   def index?
@@ -19,11 +21,13 @@ class UserPolicy < ApplicationPolicy
     user == record
   end
 
-  
+
   class Scope < Scope
+
     def resolve
       scope.all
     end
+
   end
 
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Team < ApplicationRecord
 
   include Hashid::Rails
@@ -8,15 +10,17 @@ class Team < ApplicationRecord
   # All Members
   has_many :team_memberships, dependent: :destroy, inverse_of: :team
   has_many :members, through: :team_memberships, source: :user
-  
+
   # Scrum Master
+  # rubocop:disable Rails/InverseOf
   has_one :scrum_master_membership, -> { scrum_masters }, class_name: 'TeamMembership', dependent: :destroy
   has_one :scrum_master, through: :scrum_master_membership, source: :user
-  
+
   # Developers
   has_many :developers_membership, -> { developers }, class_name: 'TeamMembership', dependent: :destroy
   has_many :developers, through: :developers_membership, source: :user
-    #, before_add: :limit_adding_developer, before_remove: :limit_removing_developer
+  # , before_add: :limit_adding_developer, before_remove: :limit_removing_developer
+  # rubocop:enable Rails/InverseOf
 
   validates_each :developers do |record, attribute, value|
     if value.present?
@@ -25,20 +29,7 @@ class Team < ApplicationRecord
     end
   end
 
-  def size
-    team_memberships.size
-  end
-
-
-  private
-
-  def limit_adding_developer(developer)
-    too_many_developers! if developers.size >= self.class.max_developers
-  end
-
-  def limit_removing_developer(developer)
-    not_enough_developers! if developers.size <= self.class.min_developers
-  end
+  delegate :size, to: :team_memberships
 
   def self.max_developers
     @max_developers ||= Role.developer.max_participants
@@ -48,10 +39,25 @@ class Team < ApplicationRecord
     @min_developers ||= Role.developer.min_participants
   end
 
+  private_class_method :max_developers, :min_developers
+
+
+  private
+
+  def limit_adding_developer(_developer)
+    too_many_developers! if developers.size >= self.class.max_developers
+  end
+
+  def limit_removing_developer(_developer)
+    not_enough_developers! if developers.size <= self.class.min_developers
+  end
+
+  # rubocop:disable Layout/EmptyLinesAroundModuleBody
   module Errors
     class MaxDevelopers < StandardError; end
     class MinDevelopers < StandardError; end
   end
+  # rubocop:enable Layout/EmptyLinesAroundModuleBody
 
   def too_many_developers!
     raise Errors::MaxDevelopers, "Limited to at most #{self.class.max_developers} developers"

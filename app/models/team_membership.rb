@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamMembership < ApplicationRecord
 
   belongs_to :team, inverse_of: :team_memberships
@@ -6,5 +8,5 @@ class TeamMembership < ApplicationRecord
 
   scope :scrum_masters, -> { where(role: Role.scrum_master) }
   scope :developers, -> { where(role: Role.developer) }
-  
+
 end

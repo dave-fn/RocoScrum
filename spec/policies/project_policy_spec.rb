@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ProjectPolicy do
-  
+
   subject { described_class.new user, project }
 
   let(:resolved_scope)  { described_class::Scope.new(user, Project.all).resolve }

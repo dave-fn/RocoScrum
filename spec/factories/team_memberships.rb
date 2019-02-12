@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
 
   factory :team_membership do
@@ -5,5 +7,5 @@ FactoryBot.define do
     user
     role
   end
-  
+
 end

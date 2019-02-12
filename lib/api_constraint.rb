@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiConstraint
 
   def initialize(version:, default: false)

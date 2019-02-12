@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Admin, type: :model do
@@ -25,5 +27,5 @@ RSpec.describe Admin, type: :model do
   #     specify { expect(admin.user).to_not eq nil }
   #   end
   # end
-  
+
 end

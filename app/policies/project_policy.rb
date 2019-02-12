@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProjectPolicy < ApplicationPolicy
 
   def index?
@@ -20,30 +22,29 @@ class ProjectPolicy < ApplicationPolicy
     owned_by_user?
   end
 
-
   # Relationships - Admin
   def create_with_admin?(admin)
     user == admin || admin_user?
   end
 
-  def replace_admin?(admin)
+  def replace_admin?(_admin)
     admin_user?
   end
 
-  def remove_admin?(admin)
+  def remove_admin?(_admin)
     false
   end
 
   # Relationships - Teams
-  def add_to_teams?(teams)
+  def add_to_teams?(_teams)
     owned_by_user? || admin_user?
   end
 
-  def remove_from_teams?(teams)
+  def remove_from_teams?(_teams)
     owned_by_user? || admin_user?
   end
 
-  def replace_teams?(teams)
+  def replace_teams?(_teams)
     owned_by_user? || admin_user?
   end
 
@@ -59,6 +60,7 @@ class ProjectPolicy < ApplicationPolicy
 
 
   class Scope < Scope
+
     def resolve
       if user.admin?
         scope.all
@@ -66,6 +68,7 @@ class ProjectPolicy < ApplicationPolicy
         scope.admin_by(user)
       end
     end
+
   end
 
 end

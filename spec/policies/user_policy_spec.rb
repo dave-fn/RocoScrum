@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe UserPolicy do
@@ -55,7 +57,7 @@ RSpec.describe UserPolicy do
       let(:user)  { create :user }
 
       it 'includes all users' do
-        expect(resolved_scope).to include *all_users
+        expect(resolved_scope).to include(*all_users)
       end
     end
   end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Role, type: :model do
-  
+
   it { should validate_presence_of :name }
   it { should validate_presence_of :description }
   it { should validate_presence_of :min_participants }
@@ -9,7 +11,7 @@ RSpec.describe Role, type: :model do
   it { should validate_presence_of :max_participants }
   it { should validate_numericality_of(:max_participants).is_greater_than_or_equal_to(1) }
 
-  it { should have_many(:team_memberships).inverse_of(:role) }
+  it { should have_many(:team_memberships).inverse_of(:role).dependent(:restrict_with_exception) }
   it { should have_many(:teams).through(:team_memberships) }
   it { should have_many(:users).through(:team_memberships) }
 

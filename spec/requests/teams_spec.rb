@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples/resource_access.rb'
 
@@ -16,7 +18,7 @@ RSpec.describe 'API - Teams', type: :request do
     let(:url)  { "#{url_base}?#{url_request_options}" }
     let(:url_request_options)  { '' }
 
-    let!(:user_team)  { create :working_team, project:(create :project, admin: user) }
+    let!(:user_team)  { create :working_team, project: (create :project, admin: user) }
     let!(:teams)  { create_list :working_team, 3 }
 
     it_behaves_like 'restricted index', authenticated: true, unauthenticated: false, unauthenticated_count: 3 do
@@ -99,7 +101,7 @@ RSpec.describe 'API - Teams', type: :request do
     let(:request)  { get url, headers: request_headers }
     let(:url)  { "#{url_base}/#{team_id}" }
 
-    let(:user_team)  { create :working_team, project:(create :project, admin: user) }
+    let(:user_team)  { create :working_team, project: (create :project, admin: user) }
     let(:team_id)  { user_team.hashid }
 
     it_behaves_like 'restricted show', unauthenticated: false, authenticated: true do
@@ -126,7 +128,7 @@ RSpec.describe 'API - Teams', type: :request do
 
     context 'as authenticated user' do
       let(:request_headers)  { authenticated_headers }
-      
+
       it_behaves_like 'creatable resource' do
         let(:example_request)  { request }
       end
@@ -143,14 +145,14 @@ RSpec.describe 'API - Teams', type: :request do
 
   describe 'PUT /api/teams/:id' do
     let(:request)  { put url, headers: request_headers, params: resource_params }
-    let(:url)  { "#{url_base}/#{team_id}" }  
+    let(:url)  { "#{url_base}/#{team_id}" }
 
     let(:resource_params)  { team_params.to_json }
     let(:team_params)  { {data: {type: 'teams', id: team_id, relationships: team_relationships}} }
     let(:project)  { create :project, admin: user }
     let(:team_relationships)  { {project: {data: {type: 'projects', id: project.hashid}}} }
-    
-    let!(:teams)  { create_list :working_team, 3, project:(create :project, admin: user) }
+
+    let!(:teams)  { create_list :working_team, 3, project: (create :project, admin: user) }
     let(:team)  { teams.last }
     let(:team_id)  { team.hashid }
 
@@ -171,8 +173,8 @@ RSpec.describe 'API - Teams', type: :request do
   describe 'DELETE /api/teams/:id' do
     let(:request)  { delete url, headers: request_headers }
     let(:url)  { "#{url_base}/#{team_id}" }
-    
-    let!(:teams)  { create_list :working_team, 3, project:(create :project, admin: project_admin) }
+
+    let!(:teams)  { create_list :working_team, 3, project: (create :project, admin: project_admin) }
     let(:team)  { teams.last }
     let(:team_id)  { team.hashid }
 
@@ -187,7 +189,7 @@ RSpec.describe 'API - Teams', type: :request do
           let(:example_request)  { request }
         end
 
-        specify { expect { request }.to change { Team.count }.by -1 }
+        specify { expect { request }.to change { Team.count }.by(-1) }
       end
 
       context 'as unauthorized user' do

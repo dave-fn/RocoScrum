@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe TeamPolicy do
-  
+
   subject { described_class.new user, team }
 
   let(:resolved_scope)  { described_class::Scope.new(user, Team.all).resolve }

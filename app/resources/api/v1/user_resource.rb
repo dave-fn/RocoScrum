@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 class Api::V1::UserResource < Api::V1::ResourceBase
 
   include JSONAPI::Authorization::PunditScopedResource
-  
+
   key_by_hashid
-  
+
   # Preliminary Implementation
   immutable
 
   attributes :name, :email, :last_logged_at, :admin?, :developer?, :scrum_master?, :project_admin?
-  
+
   filter :email
 
-  def self.creatable_fields(context)
+  def self.creatable_fields(_context)
     [:name, :email, :password, :password_confirmation]
   end
 

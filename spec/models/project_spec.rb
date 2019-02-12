@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
@@ -5,7 +7,7 @@ RSpec.describe Project, type: :model do
   it { should validate_presence_of :title }
 
   it { should belong_to(:admin).class_name('User').inverse_of(:projects).required }
-  it { should have_many(:teams).inverse_of(:project) }
+  it { should have_many(:teams).inverse_of(:project).dependent(:destroy) }
 
   # describe 'factories' do
   #   describe 'project' do

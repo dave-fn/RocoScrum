@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
 
   factory :team do
@@ -8,7 +10,7 @@ FactoryBot.define do
         create :scrum_master_role
       end
 
-      after(:create) do |t, evaluator|
+      after(:create) do |t, _evaluator|
         t.scrum_master = create :user, :scrum_master_name
       end
     end
@@ -29,5 +31,5 @@ FactoryBot.define do
 
     factory :working_team, traits: [:with_scrum_master, :with_developers]
   end
-  
+
 end

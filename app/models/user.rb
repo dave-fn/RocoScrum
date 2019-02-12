@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
 
   include Hashid::Rails
-  
+
   # bcrypt - password_digest
   has_secure_password
 
@@ -16,21 +18,20 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy, foreign_key: 'admin_id', inverse_of: :admin
   has_many :admin_teams, through: :projects, source: :teams, class_name: 'Team'
 
-  has_many :team_memberships, inverse_of: :user
+  has_many :team_memberships, dependent: :destroy, inverse_of: :user
   has_many :teams, through: :team_memberships
   has_many :roles, through: :team_memberships
 
   scope :admins, -> { joins(:admin) }
 
-
   # Knock override
   def to_token_payload
-    {sub: hashid}
+    { sub: hashid }
   end
 
-
+  # Helpers
   def admin?
-    self.admin != nil
+    admin != nil
   end
 
   def developer?

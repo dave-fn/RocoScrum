@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Team, type: :model do
@@ -15,7 +17,11 @@ RSpec.describe Team, type: :model do
 
   context 'concrete instances' do
     let(:team)  { create :working_team, developer_count: developer_count }
-    let!(:roles)  { create :scrum_master_role; create :developer_role, min_participants: 3, max_participants: 7 }
+
+    before(:each) do
+      create :scrum_master_role
+      create :developer_role, min_participants: 3, max_participants: 7
+    end
 
     describe '#size' do
       let(:developer_count)  { 7 }
@@ -33,7 +39,7 @@ RSpec.describe Team, type: :model do
           expect(team.developers.size).to eq 0
         end
       end
-      
+
       context 'within limits' do
         let(:developer_count)  { 5 }
 

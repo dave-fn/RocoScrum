@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples/resource_access.rb'
 
@@ -137,9 +139,9 @@ RSpec.describe 'API - Events', type: :request do
 
   describe 'PUT /api/events/:id' do
     let(:request)  { put url, params: resource_params, headers: request_headers }
-    let(:url)  { "#{url_base}/#{event_id}" }  
+    let(:url)  { "#{url_base}/#{event_id}" }
     let(:resource_params)  { {data: {type: 'events', id: event.hashid, attributes: {max_participants: 2}}} }
-    
+
     let!(:sprint_event)  { create(:sprint_event) }
     let(:event)  { sprint_event }
     let(:event_id)  { event.hashid }
@@ -159,7 +161,7 @@ RSpec.describe 'API - Events', type: :request do
   describe 'DELETE /api/events/:id' do
     let(:request)  { delete url, headers: request_headers }
     let(:url)  { "#{url_base}/#{event_id}" }
-    
+
     let!(:sprint_event)  { create(:sprint_event) }
     let(:event)  { sprint_event }
     let(:event_id)  { event.hashid }

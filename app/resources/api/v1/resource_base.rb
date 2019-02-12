@@ -1,31 +1,36 @@
+# frozen_string_literal: true
+
 class Api::V1::ResourceBase < JSONAPI::Resource
 
   abstract
 
   module Constants
+
     CONTEXT_USER_KEY = :key
     DEFAULT_HASHID = ''
+
   end
 
-  def self.key_by_hashid
+  def self.key_by_hashid # rubocop:disable Metrics/MethodLength
     key_type :string
 
     filter :id,
-      verify: :verify_keys,
-      apply: -> (records, value, options) do
-        records.where(id: value)
-      end
+           verify: :verify_keys,
+           apply: ->(records, value, _options) do
+             records.where(id: value)
+           end
 
+    # rubocop:disable Lint/NestedMethodDefinition
     def self.find_by_key(key, options = {})
       begin
         model = _model_class.find(key)
       rescue ActiveRecord::RecordNotFound
-        fail JSONAPI::Exceptions::RecordNotFound.new(key)
+        raise JSONAPI::Exceptions::RecordNotFound.new(key) # rubocop:disable Style/RaiseArgs
       end
-      self.resource_for_model(model).new(model, options[:context])
+      resource_for_model(model).new(model, options[:context])
     end
 
-    def self.verify_key(key, context = nil)
+    def self.verify_key(key, _context = nil)
       _model_class.decode_id(key)
     end
 
@@ -34,13 +39,14 @@ class Api::V1::ResourceBase < JSONAPI::Resource
     end
 
     def id
-      return default_hashid if @model.id == nil
+      return default_hashid if @model.id.nil?
       @model.hashid
     end
+    # rubocop:enable Lint/NestedMethodDefinition
   end
 
   def self.context_user_key
     Constants::CONTEXT_USER_KEY
   end
-  
+
 end

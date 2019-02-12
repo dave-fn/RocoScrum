@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::TeamResource < Api::V1::ResourceBase
 
   include JSONAPI::Authorization::PunditScopedResource

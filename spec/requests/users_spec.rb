@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples/resource_access.rb'
 
@@ -112,7 +114,7 @@ RSpec.describe 'API - Users', type: :request do
   # Preliminary Implementation - Will need to provide mechanism to update users
   describe 'PUT /api/users/:id' do
     let(:request)  { put url, params: resource_params, headers: request_headers }
-    let(:url)  { "#{url_base}/#{user_id}" }  
+    let(:url)  { "#{url_base}/#{user_id}" }
     let(:resource_params)  { {data: {type: 'users', id: user.hashid, attributes: {email: 'test@example.org'}}} }
 
     context 'as authenticated user' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples/resource_access.rb'
 
@@ -133,7 +135,7 @@ RSpec.describe 'API - Projects', type: :request do
 
     context 'as authenticated user' do
       let(:request_headers)  { authenticated_headers }
-      
+
       it_behaves_like 'creatable resource', fields: {name: 'title', value: 'Project Title'} do
         let(:example_request)  { request }
       end
@@ -145,12 +147,12 @@ RSpec.describe 'API - Projects', type: :request do
 
   describe 'PUT /api/projects/:id' do
     let(:request)  { put url, headers: request_headers, params: resource_params }
-    let(:url)  { "#{url_base}/#{project_id}" }  
+    let(:url)  { "#{url_base}/#{project_id}" }
 
     let(:resource_params)  { project_params.to_json }
     let(:project_params)  { {data: {type: 'projects', id: project_id, attributes: project_attributes}} }
     let(:project_attributes)  { {title: 'New Title'} }
-    
+
     let!(:projects)  { create_list :project, 3, admin: project_admin, title: 'Test Project' }
     let(:project)  { Project.last }
     let(:project_id)  { project.hashid }
@@ -172,7 +174,7 @@ RSpec.describe 'API - Projects', type: :request do
   describe 'DELETE /api/projects/:id' do
     let(:request)  { delete url, headers: request_headers }
     let(:url)  { "#{url_base}/#{project_id}" }
-    
+
     let!(:projects)  { create_list :project, 3, admin: project_admin, title: 'Test Project' }
     let(:project)  { Project.last }
     let(:project_id)  { project.hashid }
@@ -188,7 +190,7 @@ RSpec.describe 'API - Projects', type: :request do
           let(:example_request)  { request }
         end
 
-        specify { expect { request }.to change { Project.count }.by -1 }
+        specify { expect { request }.to change { Project.count }.by(-1) }
       end
 
       context 'as unauthorized user' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -13,11 +15,11 @@ RSpec.describe User, type: :model do
   it { should have_db_column :last_logged_at }
 
   it { should have_one(:admin).dependent(:destroy).inverse_of(:user) }
-  
+
   it { should have_many(:projects).with_foreign_key(:admin_id).dependent(:destroy).inverse_of(:admin) }
   it { should have_many(:admin_teams).through(:projects).source(:teams).class_name('Team') }
 
-  it { should have_many(:team_memberships) }
+  it { should have_many(:team_memberships).dependent(:destroy) }
   it { should have_many(:teams).through(:team_memberships) }
   it { should have_many(:roles).through(:team_memberships) }
 

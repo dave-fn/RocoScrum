@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples/resource_access.rb'
 
@@ -20,9 +22,9 @@ RSpec.describe 'API - User Tokens', type: :request do
       end
 
       it 'returns a JWT with hashid identifier' do
-        jwt_payload = JWT.decode(json_response.dig('jwt'),
-          Knock.token_secret_signature_key.call, Knock.token_signature_algorithm).first
-        
+        jwt_payload = JWT.decode(json_response.dig('jwt'), Knock.token_secret_signature_key.call,
+                                 Knock.token_signature_algorithm).first
+
         expect(jwt_payload.dig('sub')).to eq user.hashid
       end
 

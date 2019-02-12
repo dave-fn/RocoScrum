@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class EventPolicy < ApplicationPolicy
-  
+
   def index?
     true
   end
@@ -7,11 +9,14 @@ class EventPolicy < ApplicationPolicy
   def show?
     true
   end
-  
+
+
   class Scope < Scope
+
     def resolve
       scope.all
     end
+
   end
-  
+
 end

@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 class ApplicationPolicy
+
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -34,7 +37,6 @@ class ApplicationPolicy
     false
   end
 
-
   # Helper Methods
   def authenticated_user?
     !unauthenticated_user?
@@ -47,14 +49,14 @@ class ApplicationPolicy
   def admin_user?
     authenticated_user? && user.admin?
   end
-  
 
   # Strong Parameters
   # def permitted_attributes
   # end
-  
-  
+
+
   class Scope
+
     attr_reader :user, :scope
 
     def initialize(user, scope)
@@ -65,5 +67,7 @@ class ApplicationPolicy
     def resolve
       scope.all
     end
+
   end
+
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'restricted index' do |unauthenticated: false, authenticated: false, unauthenticated_count: nil, authenticated_count: nil|
   context 'as authenticated user' do
     let(:request_headers)  { authenticated_headers }
@@ -69,10 +71,10 @@ shared_examples 'accessible resource' do |expected_count: nil|
 
   specify { expect(response).to have_http_status :ok }
 
-  if expected_count then
+  if expected_count
     it_message = if expected_count == 1 then 'returns list with single result'
-    elsif expected_count == 0 then 'returns empty results list'
-    else 'returns list of results'
+                 elsif expected_count == 0 then 'returns empty results list'
+                 else 'returns list of results'
     end
 
     it it_message do

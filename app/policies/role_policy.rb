@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RolePolicy < ApplicationPolicy
 
   def index?
@@ -7,11 +9,14 @@ class RolePolicy < ApplicationPolicy
   def show?
     true
   end
-  
+
+
   class Scope < Scope
+
     def resolve
       scope.all
     end
+
   end
-  
+
 end

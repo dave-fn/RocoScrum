@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples/resource_access.rb'
 
@@ -137,9 +139,9 @@ RSpec.describe 'API - Roles', type: :request do
 
   describe 'PUT /api/roles/:id' do
     let(:request)  { put url, params: resource_params, headers: request_headers }
-    let(:url)  { "#{url_base}/#{role_id}" }  
+    let(:url)  { "#{url_base}/#{role_id}" }
     let(:resource_params)  { {data: {type: 'roles', id: role.hashid, attributes: {max_participants: 2}}} }
-    
+
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let(:role)  { scrum_master_role }
     let(:role_id)  { role.hashid }
@@ -159,7 +161,7 @@ RSpec.describe 'API - Roles', type: :request do
   describe 'DELETE /api/roles/:id' do
     let(:request)  { delete url, headers: request_headers }
     let(:url)  { "#{url_base}/#{role_id}" }
-    
+
     let!(:scrum_master_role)  { create(:scrum_master_role) }
     let(:role)  { scrum_master_role }
     let(:role_id)  { role.hashid }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Requests
 
   module JsonHelpers
@@ -21,21 +23,20 @@ module Requests
       header.merge!(api_header_for_version(for_version)) if for_version
       header.merge!(content_type_header(content_type)) if content_type
       header
-    end 
+    end
 
     def authenticated_header(user)
-      {'Authorization' => "Bearer #{generate_token(user)}"}
+      { 'Authorization' => "Bearer #{generate_token(user)}" }
     end
 
     def api_header_for_version(version)
-      {'Accept' => "#{Mime[:api_json].to_s}, #{Mime[:api_json].to_s}; version=#{version}"}
+      { 'Accept' => "#{Mime[:api_json]}, #{Mime[:api_json]}; version=#{version}" }
     end
 
     def content_type_header(content_type)
-      {'Content-Type' => content_type}
+      { 'Content-Type' => content_type }
     end
-    
-  end
 
+  end
 
 end

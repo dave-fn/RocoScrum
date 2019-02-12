@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
 
   factory :user, aliases: [:member, :product_owner] do
@@ -11,7 +13,7 @@ FactoryBot.define do
         base_name { 'user_id' }
       end
 
-      sequence(:name) { |n| "#{base_name}-#{n} "}
+      sequence(:name) { |n| "#{base_name}-#{n}" }
     end
 
     trait :random_fields do
@@ -21,7 +23,7 @@ FactoryBot.define do
     end
 
     trait :as_admin do
-      after(:create) do |u, evaluator|
+      after(:create) do |u, _evaluator|
         create :admin, user: u
       end
     end
