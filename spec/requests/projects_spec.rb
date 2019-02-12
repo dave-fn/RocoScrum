@@ -20,7 +20,7 @@ RSpec.describe 'API - Projects', type: :request do
 
     let!(:projects)  { create_list :project, 3, admin: project_admin, title: 'Test Project' }
 
-    it_behaves_like 'restricted index', authenticated: true, unauthenticated: false, unauthenticated_count: 3 do
+    it_behaves_like 'restricted index', authenticated: {count: 3}, unauthenticated: false do
       let(:example_request)  { request }
     end
 

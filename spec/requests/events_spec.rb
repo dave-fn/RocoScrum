@@ -21,7 +21,7 @@ RSpec.describe 'API - Events', type: :request do
     let!(:sprint_planning_event)  { create(:sprint_planning_event) }
     let!(:daily_scrum_event)  { create(:daily_scrum_event) }
 
-    it_behaves_like 'restricted index', authenticated: true, authenticated_count: 3, unauthenticated: true, unauthenticated_count: 3 do
+    it_behaves_like 'restricted index', authenticated: {count: 3}, unauthenticated: {count: 3} do
       let(:example_request)  { request }
     end
 

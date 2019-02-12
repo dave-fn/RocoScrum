@@ -11,7 +11,7 @@ class Api::V1::ResourceBase < JSONAPI::Resource
 
   end
 
-  def self.key_by_hashid # rubocop:disable Metrics/MethodLength
+  def self.key_by_hashid # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     key_type :string
 
     filter :id,

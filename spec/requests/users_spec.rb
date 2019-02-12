@@ -21,7 +21,7 @@ RSpec.describe 'API - Users', type: :request do
     let!(:user)   { create :user, name: 'testuser' }
     let!(:users)  { create_list :user, 3 }
 
-    it_behaves_like 'restricted index', authenticated: true, authenticated_count: 4 do
+    it_behaves_like 'restricted index', authenticated: {count: 4}, unauthenticated: false do
       let(:example_request)  { request }
     end
 

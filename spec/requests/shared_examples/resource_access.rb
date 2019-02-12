@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-shared_examples 'restricted index' do |unauthenticated: false, authenticated: false, unauthenticated_count: nil, authenticated_count: nil|
+shared_examples 'restricted index' do |unauthenticated: false, authenticated: false|
+  authenticated_count = authenticated.is_a?(Hash) ? authenticated[:count] : nil
+  unauthenticated_count = unauthenticated.is_a?(Hash) ? unauthenticated[:count] : nil
+
   context 'as authenticated user' do
     let(:request_headers)  { authenticated_headers }
 

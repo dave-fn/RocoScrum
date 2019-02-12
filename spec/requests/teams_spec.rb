@@ -21,7 +21,7 @@ RSpec.describe 'API - Teams', type: :request do
     let!(:user_team)  { create :working_team, project: (create :project, admin: user) }
     let!(:teams)  { create_list :working_team, 3 }
 
-    it_behaves_like 'restricted index', authenticated: true, unauthenticated: false, unauthenticated_count: 3 do
+    it_behaves_like 'restricted index', authenticated: {count: 1} do
       let(:example_request)  { request }
     end
 

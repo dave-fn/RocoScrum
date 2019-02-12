@@ -21,7 +21,7 @@ RSpec.describe 'API - Roles', type: :request do
     let!(:product_owner_role)  { create(:product_owner_role) }
     let!(:developer_role)  { create(:developer_role) }
 
-    it_behaves_like 'restricted index', authenticated: true, authenticated_count: 3, unauthenticated: true, unauthenticated_count: 3 do
+    it_behaves_like 'restricted index', authenticated: {count: 3}, unauthenticated: {count: 3} do
       let(:example_request)  { request }
     end
 
