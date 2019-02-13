@@ -8,5 +8,6 @@ RSpec.describe BacklogItem, type: :model do
   it { should allow_value(nil).for(:ready) }
 
   it { should have_one(:product_backlog_item).dependent(:destroy).inverse_of(:backlog_item) }
+  it { should have_one(:product).through(:product_backlog_item) }
 
 end
