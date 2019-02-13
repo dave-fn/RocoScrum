@@ -45,7 +45,9 @@ ActiveRecord::Schema.define(version: 2019_02_16_044342) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["backlog_item_id", "product_id"], name: "index_product_backlog_items_on_backlog_item_id_and_product_id", unique: true
     t.index ["backlog_item_id"], name: "index_product_backlog_items_on_backlog_item_id"
+    t.index ["product_id", "backlog_item_id"], name: "index_product_backlog_items_on_product_id_and_backlog_item_id", unique: true
     t.index ["product_id"], name: "index_product_backlog_items_on_product_id"
   end
 
