@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_21_235152) do
+ActiveRecord::Schema.define(version: 2019_02_13_041904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,11 +23,41 @@ ActiveRecord::Schema.define(version: 2019_01_21_235152) do
     t.index ["user_id"], name: "index_admins_on_user_id", unique: true
   end
 
+  create_table "backlog_items", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "requirement"
+    t.text "description"
+    t.boolean "ready", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.integer "timebox"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_backlog_items", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "backlog_item_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["backlog_item_id"], name: "index_product_backlog_items_on_backlog_item_id"
+    t.index ["product_id"], name: "index_product_backlog_items_on_product_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "owner_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_products_on_owner_id"
+    t.index ["project_id"], name: "index_products_on_project_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -77,6 +107,10 @@ ActiveRecord::Schema.define(version: 2019_01_21_235152) do
   end
 
   add_foreign_key "admins", "users"
+  add_foreign_key "product_backlog_items", "backlog_items"
+  add_foreign_key "product_backlog_items", "products"
+  add_foreign_key "products", "projects"
+  add_foreign_key "products", "users", column: "owner_id"
   add_foreign_key "projects", "users", column: "admin_id"
   add_foreign_key "team_memberships", "roles"
   add_foreign_key "team_memberships", "teams"

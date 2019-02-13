@@ -8,6 +8,7 @@ class Project < ApplicationRecord
 
   belongs_to :admin, class_name: 'User', inverse_of: :projects
   has_many :teams, dependent: :destroy, inverse_of: :project
+  has_one :product, dependent: :destroy, inverse_of: :project
 
   scope :admin_by, ->(user) { where(admin: user) }
 

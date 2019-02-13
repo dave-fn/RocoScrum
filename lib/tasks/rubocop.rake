@@ -3,7 +3,7 @@
 namespace :rubocop do
 
   task run: :environment do
-    system('bundle exec rubocop .')
+    system('bundle exec rubocop -f s .')
     fail if $?.exitstatus.nonzero? # rubocop:disable Style/SpecialGlobalVars
   end
 

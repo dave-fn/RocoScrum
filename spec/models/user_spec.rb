@@ -18,6 +18,7 @@ RSpec.describe User, type: :model do
 
   it { should have_many(:projects).with_foreign_key(:admin_id).dependent(:destroy).inverse_of(:admin) }
   it { should have_many(:admin_teams).through(:projects).source(:teams).class_name('Team') }
+  it { should have_many(:products).with_foreign_key(:owner_id).dependent(:nullify).inverse_of(:owner) }
 
   it { should have_many(:team_memberships).dependent(:destroy) }
   it { should have_many(:teams).through(:team_memberships) }

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
 
-  factory :user, aliases: [:member, :product_owner] do
+  factory :user, aliases: [:member] do
 
     sequence(:name) { |n| "regular-user-#{n}" }
     email { "#{name}@example.org" }
@@ -38,6 +38,10 @@ FactoryBot.define do
 
     trait :project_admin_name do
       sequence(:name) { |n| "project-admin-#{n}" }
+    end
+
+    trait :product_owner_name do
+      sequence(:name) { |n| "product-owner-#{n}" }
     end
 
     factory :admin_user, traits: [:as_admin]
