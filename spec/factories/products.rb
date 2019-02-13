@@ -12,7 +12,7 @@ FactoryBot.define do
 
     trait :with_product_owner do
       association :owner, factory: [:user, :product_owner_name]
-    end      
+    end
   end
 
 end
