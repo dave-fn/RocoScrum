@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 namespace :rubocop do
-
   task run: :environment do
     system('bundle exec rubocop -f s .')
     fail if $?.exitstatus.nonzero? # rubocop:disable Style/SpecialGlobalVars
@@ -24,7 +23,6 @@ namespace :rubocop do
     system('bundle exec rubocop --auto-gen-config .')
     fail if $?.exitstatus.nonzero? # rubocop:disable Style/SpecialGlobalVars
   end
-
 end
 
 desc 'Run RuboCop in current folder'
