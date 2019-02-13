@@ -1,9 +1,19 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
+
   factory :sprint do
-    title { "MyString" }
-    description { "MyText" }
-    goal { "MyText" }
-    duration { 1 }
-    started_at { "2019-02-13 13:00:40" }
+    title { Faker::Hacker.say_something_smart }
+    duration { 4.weeks }
+
+    trait :annotated do
+      description { Faker::Hipster.sentence }
+      goal { Faker::Hacker.ingverb }
+    end
+
+    trait :started do
+      started_at { Faker::Date.between(3.days.ago, Time.zone.today) }
+    end
   end
+
 end
