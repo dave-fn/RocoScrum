@@ -7,7 +7,7 @@ RSpec.describe Product, type: :model do
   it { should validate_presence_of :title }
 
   it { should belong_to(:project).inverse_of(:product) }
-  it { should belong_to(:owner).class_name('User').inverse_of(:products).optional }
+  it { should belong_to(:owner).class_name('User').inverse_of(:owned_products).optional }
 
   it { should have_many(:product_backlog_items).dependent(:destroy).inverse_of(:product) }
   it { should have_many(:backlog_items).through(:product_backlog_items).order('position') }

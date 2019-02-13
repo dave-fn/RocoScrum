@@ -37,7 +37,7 @@ RSpec.describe ProjectPolicy do
 
       permissions '.scope' do
         it 'returns administered projects' do
-          expect(resolved_scope).to eq user.projects
+          expect(resolved_scope).to eq user.admin_projects
         end
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe ProjectPolicy do
 
       permissions '.scope' do
         it 'returns administered projects' do
-          expect(resolved_scope).to eq project_admin.projects
+          expect(resolved_scope).to eq project_admin.admin_projects
         end
       end
     end

@@ -6,7 +6,7 @@ class Product < ApplicationRecord
 
   validates :title, presence: true, length: { minimum: 3 }
 
-  belongs_to :owner, class_name: 'User', optional: true, inverse_of: :products
+  belongs_to :owner, class_name: 'User', optional: true, inverse_of: :owned_products
   belongs_to :project, inverse_of: :product
 
   has_many :product_backlog_items, dependent: :destroy, inverse_of: :product

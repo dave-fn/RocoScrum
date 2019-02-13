@@ -15,9 +15,10 @@ class User < ApplicationRecord
   before_validation { change_case_of_email }
 
   has_one :admin, dependent: :destroy, inverse_of: :user
-  has_many :projects, dependent: :destroy, foreign_key: 'admin_id', inverse_of: :admin
-  has_many :admin_teams, through: :projects, source: :teams, class_name: 'Team'
-  has_many :products, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
+
+  has_many :admin_projects, class_name: 'Project', foreign_key: 'admin_id', dependent: :destroy, inverse_of: :admin
+  has_many :admin_teams, through: :admin_projects, source: :teams, class_name: 'Team'
+  has_many :owned_products, class_name: 'Product', foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
 
   has_many :team_memberships, dependent: :destroy, inverse_of: :user
   has_many :teams, through: :team_memberships
@@ -44,7 +45,11 @@ class User < ApplicationRecord
   end
 
   def project_admin?
-    projects.any? { |proj| proj.admin == self }
+    admin_projects.any?
+  end
+
+  def product_owner?
+    owned_products.any?
   end
 
 

@@ -6,7 +6,7 @@ class Project < ApplicationRecord
 
   validates :title, presence: true, length: { minimum: 3 }
 
-  belongs_to :admin, class_name: 'User', inverse_of: :projects
+  belongs_to :admin, class_name: 'User', inverse_of: :admin_projects
   has_many :teams, dependent: :destroy, inverse_of: :project
   has_one :product, dependent: :destroy, inverse_of: :project
 

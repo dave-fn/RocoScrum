@@ -5,7 +5,12 @@ class Team < ApplicationRecord
   include Hashid::Rails
 
   belongs_to :project, inverse_of: :teams
-  # has_one :project_admin, through: :project, class_name: 'User', source: :admin
+  has_one :project_admin, through: :project, class_name: 'User', source: :admin
+
+  has_one :product, through: :project
+
+  # Product Owner
+  has_one :product_owner, through: :product, source: :owner
 
   # All Members
   has_many :team_memberships, dependent: :destroy, inverse_of: :team
@@ -29,7 +34,10 @@ class Team < ApplicationRecord
     end
   end
 
-  delegate :size, to: :team_memberships
+  def size
+    return team_memberships.size if product_owner.nil?
+    team_memberships.size + 1
+  end
 
   def self.max_developers
     @max_developers ||= Role.developer.max_participants

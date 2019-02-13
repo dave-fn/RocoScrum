@@ -16,9 +16,15 @@ RSpec.describe User, type: :model do
 
   it { should have_one(:admin).dependent(:destroy).inverse_of(:user) }
 
-  it { should have_many(:projects).with_foreign_key(:admin_id).dependent(:destroy).inverse_of(:admin) }
-  it { should have_many(:admin_teams).through(:projects).source(:teams).class_name('Team') }
-  it { should have_many(:products).with_foreign_key(:owner_id).dependent(:nullify).inverse_of(:owner) }
+  it do
+    should have_many(:admin_projects).class_name('Project').with_foreign_key(:admin_id).dependent(:destroy).inverse_of(:admin)
+  end
+  it { should have_many(:admin_teams).through(:admin_projects).source(:teams).class_name('Team') }
+  # it do
+  #   should have_many(:owned_projects).class_name('Project').with_foreign_key(:product_owner_id)
+  #     .dependent(:nullify).inverse_of(:product_owner)
+  # end
+  # it { should have_many(:products).with_foreign_key(:owner_id).dependent(:nullify).inverse_of(:owner) }
 
   it { should have_many(:team_memberships).dependent(:destroy) }
   it { should have_many(:teams).through(:team_memberships) }
@@ -89,5 +95,24 @@ RSpec.describe User, type: :model do
       specify { expect(regular_user.project_admin?).to eq false }
     end
   end
+
+
+  describe '#product_owner?' do
+    let!(:product)  { create :product, :with_product_owner, project: team.project }
+    let(:product_owner_user)  { product.owner }
+
+    let(:team)  { create :working_team, developer_count: 1, project: (create :project) }
+    let(:regular_user)  { create :user }
+
+    context 'user is the product owner on any team' do
+      specify { expect(product_owner_user.product_owner?).to eq true }
+    end
+
+    context 'user not the product owner on any team' do
+      specify { expect(regular_user.product_owner?).to eq false }
+    end
+  end
+
+
 
 end
