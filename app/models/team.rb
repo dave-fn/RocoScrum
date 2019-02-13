@@ -4,9 +4,11 @@ class Team < ApplicationRecord
 
   include Hashid::Rails
 
+  # Project
   belongs_to :project, inverse_of: :teams
   has_one :project_admin, through: :project, class_name: 'User', source: :admin
 
+  # Product
   has_one :product, through: :project
 
   # Product Owner
