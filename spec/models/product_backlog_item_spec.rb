@@ -13,6 +13,8 @@ RSpec.describe ProductBacklogItem, type: :model do
 
     it { should validate_uniqueness_of(:product_id).scoped_to(:backlog_item_id) }
     it { should validate_uniqueness_of(:backlog_item_id).scoped_to(:product_id) }
+
+    it { should validate_uniqueness_of(:position).scoped_to(:product_id) }
   end
 
 end

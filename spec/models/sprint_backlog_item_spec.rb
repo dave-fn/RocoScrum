@@ -14,6 +14,8 @@ RSpec.describe SprintBacklogItem, type: :model do
 
     it { should validate_uniqueness_of(:sprint_id).scoped_to(:backlog_item_id) }
     it { should validate_uniqueness_of(:backlog_item_id).scoped_to(:sprint_id) }
+
+    it { should validate_uniqueness_of(:position).scoped_to(:sprint_id) }
   end
 
 end
