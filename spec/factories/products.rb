@@ -13,6 +13,16 @@ FactoryBot.define do
     trait :with_product_owner do
       association :owner, factory: [:user, :product_owner_name]
     end
+
+    trait :with_backlog_items do
+      transient do
+        item_count { 3 }
+      end
+
+      after(:create) do |prod, evaluator|
+        prod.product_backlog_items = create_list :product_backlog_item, evaluator.item_count
+      end
+    end
   end
 
 end

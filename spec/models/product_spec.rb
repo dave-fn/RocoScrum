@@ -9,4 +9,6 @@ RSpec.describe Product, type: :model do
   it { should belong_to(:project).inverse_of(:product) }
   it { should belong_to(:owner).class_name('User').inverse_of(:products).optional }
 
+  it { should have_many(:product_backlog_items).dependent(:destroy).inverse_of(:product) }
+
 end

@@ -1,5 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ProductBacklogItem, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it { should belong_to(:product).inverse_of(:product_backlog_items) }
+  it { should belong_to(:backlog_item).inverse_of(:product_backlog_item) }
+
 end

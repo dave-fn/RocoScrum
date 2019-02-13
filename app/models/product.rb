@@ -9,6 +9,8 @@ class Product < ApplicationRecord
   belongs_to :owner, class_name: 'User', optional: true, inverse_of: :products
   belongs_to :project, inverse_of: :product
 
+  has_many :product_backlog_items, dependent: :destroy, inverse_of: :product
+
   scope :owned_by, ->(user) { where(owner: user) }
 
 end
