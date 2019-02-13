@@ -34,5 +34,6 @@ when 'development'
   t2 = FactoryBot.create :working_team, developer_count: 3, project: pp.first
 
   prod1 = FactoryBot.create :product, :with_product_owner, :with_backlog_items, project: t1.project
+  s1 = FactoryBot.create :sprint, :with_backlog_items
 when 'production'
 end

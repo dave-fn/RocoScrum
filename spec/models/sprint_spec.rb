@@ -10,7 +10,7 @@ RSpec.describe Sprint, type: :model do
   it { should allow_value(nil).for(:started_at) }
 
   it { should have_many(:sprint_backlog_items).dependent(:destroy).inverse_of(:sprint) }
-
+  it { should have_many(:backlog_items).through(:sprint_backlog_items) }
 
   describe '#started?' do
     context 'when started_at not set' do
