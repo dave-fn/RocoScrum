@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
+  it { should respond_to :hashid }
+
   it { should have_secure_password }
 
   it { should validate_presence_of :name }
@@ -20,11 +22,9 @@ RSpec.describe User, type: :model do
     should have_many(:admin_projects).class_name('Project').with_foreign_key(:admin_id).dependent(:destroy).inverse_of(:admin)
   end
   it { should have_many(:admin_teams).through(:admin_projects).source(:teams).class_name('Team') }
-  # it do
-  #   should have_many(:owned_projects).class_name('Project').with_foreign_key(:product_owner_id)
-  #     .dependent(:nullify).inverse_of(:product_owner)
-  # end
-  # it { should have_many(:products).with_foreign_key(:owner_id).dependent(:nullify).inverse_of(:owner) }
+  it do
+    should have_many(:owned_products).class_name('Product').with_foreign_key(:owner_id).dependent(:nullify).inverse_of(:owner)
+  end
 
   it { should have_many(:team_memberships).dependent(:destroy) }
   it { should have_many(:teams).through(:team_memberships) }

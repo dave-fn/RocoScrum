@@ -4,10 +4,13 @@ require 'rails_helper'
 
 RSpec.describe Sprint, type: :model do
 
+  it { should respond_to :hashid }
+
   it { should validate_presence_of :title }
   it { should allow_value(nil).for(:started_at) }
 
   it { should have_many(:sprint_backlog_items).dependent(:destroy).inverse_of(:sprint) }
+
 
   describe '#started?' do
     context 'when started_at not set' do

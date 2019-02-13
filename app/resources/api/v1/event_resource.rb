@@ -12,7 +12,7 @@ class Api::V1::EventResource < Api::V1::ResourceBase
 
   filter :name
 
-  def timebox
+  def timebox # rubocop:disable Metrics/AbcSize
     t = @model.timebox
     tvalues = [t / 86_400, t / 3_600 % 24, t / 60 % 60, t % 60]
     duration_values =

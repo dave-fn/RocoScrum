@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Project, type: :model do
 
+  it { should respond_to :hashid }
+
   it { should validate_presence_of :title }
 
   it { should belong_to(:admin).class_name('User').inverse_of(:admin_projects).required }
