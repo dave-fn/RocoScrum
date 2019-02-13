@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_13_032036) do
+ActiveRecord::Schema.define(version: 2019_02_13_041904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 2019_02_13_032036) do
     t.integer "timebox"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_backlog_items", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "backlog_item_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["backlog_item_id"], name: "index_product_backlog_items_on_backlog_item_id"
+    t.index ["product_id"], name: "index_product_backlog_items_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -97,6 +107,8 @@ ActiveRecord::Schema.define(version: 2019_02_13_032036) do
   end
 
   add_foreign_key "admins", "users"
+  add_foreign_key "product_backlog_items", "backlog_items"
+  add_foreign_key "product_backlog_items", "products"
   add_foreign_key "products", "projects"
   add_foreign_key "products", "users", column: "owner_id"
   add_foreign_key "projects", "users", column: "admin_id"
