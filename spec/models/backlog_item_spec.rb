@@ -10,4 +10,6 @@ RSpec.describe BacklogItem, type: :model do
   it { should have_one(:product_backlog_item).dependent(:destroy).inverse_of(:backlog_item) }
   it { should have_one(:product).through(:product_backlog_item) }
 
+  it { should have_one(:sprint_backlog_item).dependent(:destroy).inverse_of(:backlog_item) }
+
 end
