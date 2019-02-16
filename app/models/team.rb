@@ -14,6 +14,9 @@ class Team < ApplicationRecord
   # Product Owner
   has_one :product_owner, through: :product, source: :owner
 
+  # Sprints
+  has_many :sprint_backlog_items, dependent: :nullify, inverse_of: :team
+
   # All Members
   has_many :team_memberships, dependent: :destroy, inverse_of: :team
   has_many :members, through: :team_memberships, source: :user

@@ -17,6 +17,8 @@ RSpec.describe Team, type: :model do
   it { should have_one(:scrum_master).source(:user) }
   it { should have_many(:developers).source(:user) }
 
+  it { should have_many(:sprint_backlog_items).dependent(:nullify).inverse_of(:team) }
+
 
   context 'concrete instances' do
     let(:team)  { create :working_team, developer_count: developer_count, project: project }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_13_041904) do
+ActiveRecord::Schema.define(version: 2019_02_16_044342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,30 @@ ActiveRecord::Schema.define(version: 2019_02_13_041904) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sprint_backlog_items", force: :cascade do |t|
+    t.bigint "sprint_id"
+    t.bigint "backlog_item_id"
+    t.bigint "team_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["backlog_item_id", "sprint_id"], name: "index_sprint_backlog_items_on_backlog_item_id_and_sprint_id", unique: true
+    t.index ["backlog_item_id"], name: "index_sprint_backlog_items_on_backlog_item_id"
+    t.index ["sprint_id", "backlog_item_id"], name: "index_sprint_backlog_items_on_sprint_id_and_backlog_item_id", unique: true
+    t.index ["sprint_id"], name: "index_sprint_backlog_items_on_sprint_id"
+    t.index ["team_id"], name: "index_sprint_backlog_items_on_team_id"
+  end
+
+  create_table "sprints", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.text "goal"
+    t.integer "duration"
+    t.datetime "started_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "team_memberships", force: :cascade do |t|
     t.bigint "team_id"
     t.bigint "user_id"
@@ -112,6 +136,9 @@ ActiveRecord::Schema.define(version: 2019_02_13_041904) do
   add_foreign_key "products", "projects"
   add_foreign_key "products", "users", column: "owner_id"
   add_foreign_key "projects", "users", column: "admin_id"
+  add_foreign_key "sprint_backlog_items", "backlog_items"
+  add_foreign_key "sprint_backlog_items", "sprints"
+  add_foreign_key "sprint_backlog_items", "teams"
   add_foreign_key "team_memberships", "roles"
   add_foreign_key "team_memberships", "teams"
   add_foreign_key "team_memberships", "users"
