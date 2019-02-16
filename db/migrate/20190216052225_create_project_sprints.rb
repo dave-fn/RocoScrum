@@ -5,6 +5,9 @@ class CreateProjectSprints < ActiveRecord::Migration[5.2]
       t.references :sprint, foreign_key: true
       t.integer :position
 
+      t.index [:project_id, :sprint_id], unique: true
+      t.index [:sprint_id, :project_id], unique: true
+
       t.timestamps
     end
   end
