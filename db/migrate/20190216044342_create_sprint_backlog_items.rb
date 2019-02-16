@@ -6,6 +6,9 @@ class CreateSprintBacklogItems < ActiveRecord::Migration[5.2]
       t.references :team, foreign_key: true
       t.integer :position
 
+      t.index [:sprint_id, :backlog_item_id], unique: true
+      t.index [:backlog_item_id, :sprint_id], unique: true
+
       t.timestamps
     end
   end
