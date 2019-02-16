@@ -52,6 +52,50 @@ RSpec.describe User, type: :model do
   end
 
 
+  describe '#add_admin_access' do
+    let(:admin_user)  { create :user, :as_admin }
+    let(:regular_user)  { create :user }
+
+    context 'user already has admin access' do
+      before(:each)  { admin_user.add_admin_access }
+
+      it 'keeps admin access' do
+        expect(admin_user.admin?).to eq true
+      end
+    end
+
+    context 'user does not have admin access' do
+      before(:each)  { regular_user.add_admin_access }
+
+      it 'grants admin access' do
+        expect(regular_user.admin?).to eq true
+      end
+    end
+  end
+
+
+  describe '#remove_admin_access' do
+    let(:admin_user)  { create :user, :as_admin }
+    let(:regular_user)  { create :user }
+
+    context 'user already has admin access' do
+      before(:each)  { admin_user.remove_admin_access }
+
+      it 'removes admin access' do
+        expect(admin_user.admin?).to eq false
+      end
+    end
+
+    context 'user does not have admin access' do
+      before(:each)  { regular_user.remove_admin_access }
+
+      it 'keeps no admin access' do
+        expect(regular_user.admin?).to eq false
+      end
+    end
+  end
+
+
   describe '#developer?' do
     let(:developer_user)  { team.developers.first }
     let(:team)  { create :working_team, developer_count: 2 }

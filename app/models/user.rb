@@ -36,6 +36,16 @@ class User < ApplicationRecord
     { sub: hashid }
   end
 
+  # Access
+  def add_admin_access
+    self.create_admin unless admin?
+  end
+
+  def remove_admin_access
+    self.admin.destroy if admin?
+    self.admin = nil
+  end
+
   # Helpers
   def admin?
     admin != nil
