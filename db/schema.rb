@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_16_044342) do
+ActiveRecord::Schema.define(version: 2019_02_16_052225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 2019_02_16_044342) do
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_products_on_owner_id"
     t.index ["project_id"], name: "index_products_on_project_id"
+  end
+
+  create_table "project_sprints", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "sprint_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "sprint_id"], name: "index_project_sprints_on_project_id_and_sprint_id", unique: true
+    t.index ["project_id"], name: "index_project_sprints_on_project_id"
+    t.index ["sprint_id", "project_id"], name: "index_project_sprints_on_sprint_id_and_project_id", unique: true
+    t.index ["sprint_id"], name: "index_project_sprints_on_sprint_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -137,6 +149,8 @@ ActiveRecord::Schema.define(version: 2019_02_16_044342) do
   add_foreign_key "product_backlog_items", "products"
   add_foreign_key "products", "projects"
   add_foreign_key "products", "users", column: "owner_id"
+  add_foreign_key "project_sprints", "projects"
+  add_foreign_key "project_sprints", "sprints"
   add_foreign_key "projects", "users", column: "admin_id"
   add_foreign_key "sprint_backlog_items", "backlog_items"
   add_foreign_key "sprint_backlog_items", "sprints"
