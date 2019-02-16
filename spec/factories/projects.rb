@@ -9,6 +9,19 @@ FactoryBot.define do
     trait :with_description do
       description { Faker::Lorem.paragraph }
     end
+
+    trait :with_sprints do
+      transient do
+        sprint_count { 3 }
+      end
+
+      after(:create) do |proj, evaluator|
+        evaluator.sprint_count.times do
+          create :project_sprint, project: proj, sprint: (create :sprint, :with_backlog_items, item_count: 4)
+        end
+        # proj.sprints = create_list :sprint, evaluator.sprint_count, :with_backlog_items, item_count: 4
+      end
+    end
   end
 
 end

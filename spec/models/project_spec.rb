@@ -13,4 +13,7 @@ RSpec.describe Project, type: :model do
 
   it { should have_one(:product).dependent(:destroy).inverse_of(:project) }
 
+  it { should have_many(:project_sprints).dependent(:destroy).inverse_of(:project) }
+  it { should have_many(:sprints).through(:project_sprints) }
+
 end

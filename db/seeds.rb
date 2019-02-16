@@ -30,7 +30,8 @@ when 'development'
   u2 = FactoryBot.create :admin_user, name: 'testadmin', email: 'testadmin@example.org'
 
   pp = FactoryBot.create_list :project, 3
-  t1 = FactoryBot.create(:working_team, developer_count: 4, project: FactoryBot.create(:project, admin: u1))
+  p1 = FactoryBot.create :project, :with_sprints, admin: u1, sprint_count: 2
+  t1 = FactoryBot.create :working_team, developer_count: 4, project: p1
   t2 = FactoryBot.create :working_team, developer_count: 3, project: pp.first
 
   prod1 = FactoryBot.create :product, :with_product_owner, :with_backlog_items, project: t1.project

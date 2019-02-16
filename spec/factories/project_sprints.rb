@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
+
   factory :project_sprint do
-    project { nil }
-    sprint { nil }
-    position { 1 }
+    project
+    sprint
+    sequence(:position, 0)
   end
+
 end
