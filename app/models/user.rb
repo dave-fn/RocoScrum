@@ -38,11 +38,11 @@ class User < ApplicationRecord
 
   # Access
   def add_admin_access
-    self.create_admin unless admin?
+    create_admin unless admin?
   end
 
   def remove_admin_access
-    self.admin.destroy if admin?
+    admin.destroy if admin?
     self.admin = nil
   end
 
