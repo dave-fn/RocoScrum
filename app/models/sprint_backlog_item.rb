@@ -9,7 +9,7 @@ class SprintBacklogItem < ApplicationRecord
   # Association
   belongs_to :sprint, inverse_of: :sprint_backlog_items
   belongs_to :backlog_item, inverse_of: :sprint_backlog_items
-  belongs_to :team, inverse_of: :sprint_backlog_items
+  belongs_to :team, optional: true, inverse_of: :sprint_backlog_items
 
   # Scopes
   scope :for_sprint, ->(sprint) { where(sprint: sprint) }
