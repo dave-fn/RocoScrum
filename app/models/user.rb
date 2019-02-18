@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :teams, through: :team_memberships
   has_many :roles, through: :team_memberships
 
+  # Scopes
   scope :admins, -> { joins(:admin) }
 
   # Knock override

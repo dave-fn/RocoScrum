@@ -40,6 +40,7 @@ class Team < ApplicationRecord
     end
   end
 
+  # Helpers
   def size
     return team_memberships.size if product_owner.nil?
     team_memberships.size + 1

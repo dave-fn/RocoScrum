@@ -16,6 +16,7 @@ class Product < ApplicationRecord
   has_many :product_backlog_items, dependent: :destroy, inverse_of: :product
   has_many :backlog_items, -> { order('position') }, through: :product_backlog_items
 
+  # Scopes
   scope :owned_by, ->(user) { where(owner: user) }
 
 end
