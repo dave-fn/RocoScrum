@@ -16,7 +16,7 @@ class Project < ApplicationRecord
   has_one :product, dependent: :destroy, inverse_of: :project
 
   # Sprints
-  has_many :project_sprints, dependent: :destroy, inverse_of: :project
+  has_many :project_sprints, -> { ordered_by_position }, dependent: :destroy, inverse_of: :project
   has_many :sprints, through: :project_sprints
 
   # Scopes

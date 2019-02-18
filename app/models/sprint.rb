@@ -7,7 +7,7 @@ class Sprint < ApplicationRecord
   validates :title, presence: true, length: { minimum: 3 }
 
   # Backlog
-  has_many :sprint_backlog_items, dependent: :destroy, inverse_of: :sprint
+  has_many :sprint_backlog_items, -> { ordered_by_team_and_position }, dependent: :destroy, inverse_of: :sprint
   has_many :backlog_items, through: :sprint_backlog_items
 
   # Project
