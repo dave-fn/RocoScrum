@@ -15,8 +15,10 @@ class SprintBacklogItem < ApplicationRecord
   # Scopes
   scope :for_sprint, ->(sprint) { where(sprint: sprint) }
   scope :for_team, ->(team) { where(team: team) }
+  scope :ordered_by_sprint, -> { order(sprint_id: :asc) }
   scope :ordered_by_team, -> { order(team_id: :asc) }
   scope :ordered_by_position, -> { order(position: :asc) }
+  scope :ordered_by_sprint_and_position, -> { ordered_by_sprint.ordered_by_position }
   scope :ordered_by_team_and_position, -> { ordered_by_team.ordered_by_position }
 
   acts_as_list scope: [:sprint_id, :team_id], top_of_list: 0, add_new_at: nil
@@ -27,7 +29,6 @@ class SprintBacklogItem < ApplicationRecord
     write_attribute position_column, new_position
     raise_exception_if_save_fails ? save! : save
   end
-
   # rubocop:enable all
 
 end

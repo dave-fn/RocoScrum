@@ -22,9 +22,9 @@ RSpec.describe Team, type: :model do
 
   describe '#current_sprint_backlog_items' do
     let(:team)  { create :working_team }
-    let!(:sprint_1)  { create :sprint, :with_backlog_items, item_count: 4, started_at: 4.days.ago, team: team }
-    let!(:sprint_2)  { create :sprint, :with_backlog_items, item_count: 5, started_at: 3.days.ago, team: team }
-    let!(:sprint_3)  { create :sprint, :with_backlog_items, item_count: 6, started_at: 2.days.ago, team: team }
+    let!(:sprint_1)  { create :sprint, :with_backlog_items, item_count: 4, team: team }
+    let!(:sprint_2)  { create :sprint, :with_backlog_items, item_count: 5, team: team }
+    let!(:sprint_3)  { create :sprint, :with_backlog_items, item_count: 6, team: team }
 
     it 'returns items for latest sprint' do
       expect(team.current_sprint_backlog_items).to eq sprint_3.sprint_backlog_items
@@ -34,12 +34,12 @@ RSpec.describe Team, type: :model do
 
   describe '#current_sprint' do
     let(:team)  { create :working_team }
-    let!(:sprint_1)  { create :sprint, :with_backlog_items, item_count: 4, started_at: 4.days.ago, team: team }
-    let!(:sprint_2)  { create :sprint, :with_backlog_items, item_count: 5, started_at: 2.days.ago, team: team }
-    let!(:sprint_3)  { create :sprint, :with_backlog_items, item_count: 6, started_at: 3.days.ago, team: team }
+    let!(:sprint_1)  { create :sprint, :with_backlog_items, item_count: 4, team: team }
+    let!(:sprint_2)  { create :sprint, :with_backlog_items, item_count: 5, team: team }
+    let!(:sprint_3)  { create :sprint, :with_backlog_items, item_count: 6, team: team }
 
     it 'returns latest sprint' do
-      expect(team.current_sprint).to eq sprint_2
+      expect(team.current_sprint).to eq sprint_3
     end
   end
 

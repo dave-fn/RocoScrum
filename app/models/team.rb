@@ -15,7 +15,7 @@ class Team < ApplicationRecord
   has_one :product_owner, through: :product, source: :owner
 
   # Sprints
-  has_many :sprint_backlog_items, dependent: :nullify, inverse_of: :team
+  has_many :sprint_backlog_items, -> { ordered_by_sprint_and_position }, dependent: :nullify, inverse_of: :team
   has_many :sprints, through: :sprint_backlog_items
 
   # All Members
@@ -47,11 +47,11 @@ class Team < ApplicationRecord
   end
 
   def current_sprint
-    sprints.ordered_by_start.last
+    sprints.last
   end
 
   def current_sprint_backlog_items
-    SprintBacklogItem.for_sprint(current_sprint)
+    sprint_backlog_items.for_sprint(current_sprint)
   end
 
   def self.max_developers
