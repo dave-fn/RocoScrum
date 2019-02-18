@@ -13,8 +13,8 @@ class Product < ApplicationRecord
   belongs_to :owner, class_name: 'User', optional: true, inverse_of: :owned_products
 
   # Backlog
-  has_many :product_backlog_items, dependent: :destroy, inverse_of: :product
-  has_many :backlog_items, -> { order('position') }, through: :product_backlog_items
+  has_many :product_backlog_items, -> { ordered_by_position }, dependent: :destroy, inverse_of: :product
+  has_many :backlog_items, through: :product_backlog_items
 
   # Scopes
   scope :owned_by, ->(user) { where(owner: user) }
