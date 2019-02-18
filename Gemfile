@@ -48,6 +48,9 @@ gem 'jsonapi-authorization', '~> 1.0'
 # Hashids
 gem 'hashid-rails', '~> 1.2'
 
+# Ordered Relationships
+gem 'acts_as_list', '~> 0.9.17'
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
 
