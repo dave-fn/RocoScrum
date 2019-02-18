@@ -11,4 +11,7 @@ class SprintBacklogItem < ApplicationRecord
 
   validates :position, uniqueness: { scope: [:sprint_id] }, numericality: { only_integer: true }
 
+  scope :for_sprint, ->(sprint) { where(sprint: sprint) }
+  scope :for_team, ->(team) { where(team: team) }
+
 end

@@ -16,6 +16,7 @@ class Team < ApplicationRecord
 
   # Sprints
   has_many :sprint_backlog_items, dependent: :nullify, inverse_of: :team
+  has_many :sprints, through: :sprint_backlog_items
 
   # All Members
   has_many :team_memberships, dependent: :destroy, inverse_of: :team
@@ -42,6 +43,14 @@ class Team < ApplicationRecord
   def size
     return team_memberships.size if product_owner.nil?
     team_memberships.size + 1
+  end
+
+  def current_sprint
+    sprints.ordered_by_start.last
+  end
+
+  def current_sprint_backlog_items
+    SprintBacklogItem.for_sprint(current_sprint)
   end
 
   def self.max_developers
