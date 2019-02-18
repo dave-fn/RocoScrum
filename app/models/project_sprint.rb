@@ -16,12 +16,4 @@ class ProjectSprint < ApplicationRecord
 
   acts_as_list scope: :project, top_of_list: 0, add_new_at: nil
 
-  # OVERRIDE - TESTING
-  # rubocop:disable all
-  def set_list_position(new_position, raise_exception_if_save_fails=true)
-    write_attribute position_column, new_position
-    raise_exception_if_save_fails ? save! : save
-  end
-  # rubocop:enable all
-
 end
