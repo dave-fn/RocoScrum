@@ -22,12 +22,13 @@ FactoryBot.define do
       end
 
       after(:create) do |s, evaluator|
-        s.sprint_backlog_items =
+        evaluator.item_count.times do
           if evaluator.team.nil?
-            create_list :sprint_backlog_item, evaluator.item_count
+            create :sprint_backlog_item, sprint: s
           else
-            create_list :sprint_backlog_item, evaluator.item_count, team: evaluator.team
+            create :sprint_backlog_item, sprint: s, team: evaluator.team
           end
+        end
       end
     end
   end

@@ -20,7 +20,9 @@ FactoryBot.define do
       end
 
       after(:create) do |prod, evaluator|
-        prod.product_backlog_items = create_list :product_backlog_item, evaluator.item_count
+        evaluator.item_count.times do
+          create :product_backlog_item, product: prod
+        end
       end
     end
   end
