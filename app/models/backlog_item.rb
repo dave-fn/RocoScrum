@@ -11,6 +11,7 @@ class BacklogItem < ApplicationRecord
   has_one :product, through: :product_backlog_item
 
   # Sprint
-  has_one :sprint_backlog_item, dependent: :destroy, inverse_of: :backlog_item
+  has_many :sprint_backlog_items, dependent: :destroy, inverse_of: :backlog_item
+  has_many :sprints, through: :sprint_backlog_items
 
 end

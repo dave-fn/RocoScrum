@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe SprintBacklogItem, type: :model do
 
   it { should belong_to(:sprint).inverse_of(:sprint_backlog_items) }
-  it { should belong_to(:backlog_item).inverse_of(:sprint_backlog_item) }
+  it { should belong_to(:backlog_item).inverse_of(:sprint_backlog_items) }
   it { should belong_to(:team).inverse_of(:sprint_backlog_items) }
 
   it { should validate_numericality_of(:position).only_integer }
