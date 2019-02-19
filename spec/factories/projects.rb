@@ -15,7 +15,7 @@ FactoryBot.define do
         sprint_count { 3 }
       end
 
-      after(:create) do |proj, evaluator|
+      after :create do |proj, evaluator|
         evaluator.sprint_count.times do
           create :project_sprint, project: proj, sprint: (create :sprint, :with_backlog_items, item_count: 4)
         end

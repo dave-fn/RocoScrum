@@ -6,11 +6,11 @@ FactoryBot.define do
     project
 
     trait :with_scrum_master do
-      before(:create) do
+      before :create do
         create :scrum_master_role
       end
 
-      after(:create) do |t, _evaluator|
+      after :create do |t, _evaluator|
         t.scrum_master = create :user, :scrum_master_name
       end
     end
@@ -20,11 +20,11 @@ FactoryBot.define do
         developer_count { 3 }
       end
 
-      before(:create) do
+      before :create do
         create :developer_role
       end
 
-      after(:create) do |t, evaluator|
+      after :create do |t, evaluator|
         t.developers = create_list :user, evaluator.developer_count, :developer_name
       end
     end

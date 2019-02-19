@@ -49,7 +49,7 @@ RSpec.describe Team, type: :model do
     let!(:product)  { create :product, :with_product_owner, project: project }
     let(:project)  { create :project }
 
-    before(:each) do
+    before :each do
       build :scrum_master_role
       build :developer_role, min_participants: 3, max_participants: 7
     end

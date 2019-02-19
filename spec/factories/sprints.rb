@@ -21,7 +21,7 @@ FactoryBot.define do
         team { nil }
       end
 
-      after(:create) do |s, evaluator|
+      after :create do |s, evaluator|
         evaluator.item_count.times do
           if evaluator.team.nil?
             create :sprint_backlog_item, sprint: s

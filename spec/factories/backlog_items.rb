@@ -9,7 +9,7 @@ FactoryBot.define do
 
     title { Faker::Hacker.say_something_smart }
 
-    # after(:build) do |item, evaluator|
+    # after :build do |item, evaluator|
     #   item.ready = Faker::Boolean.boolean(evaluator.ready_ratio)
     # end
 

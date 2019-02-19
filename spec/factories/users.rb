@@ -23,7 +23,7 @@ FactoryBot.define do
     end
 
     trait :as_admin do
-      after(:create) do |u, _evaluator|
+      after :create do |u, _evaluator|
         create :admin, user: u
       end
     end

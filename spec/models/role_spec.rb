@@ -24,7 +24,7 @@ RSpec.describe Role, type: :model do
 
 
   describe '.scrum_master' do
-    before(:each) do
+    before :each do
       FactoryBotHelper.roles_factories { |factory| build(*factory) }
     end
 
@@ -35,7 +35,7 @@ RSpec.describe Role, type: :model do
 
 
   describe '.developer' do
-    before(:each) do
+    before :each do
       FactoryBotHelper.roles_factories { |factory| build(*factory) }
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Role, type: :model do
 
 
   describe '.product_owner' do
-    before(:each) do
+    before :each do
       FactoryBotHelper.roles_factories { |factory| build(*factory) }
     end
 
