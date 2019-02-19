@@ -25,7 +25,7 @@ RSpec.describe Role, type: :model do
 
   describe '.scrum_master' do
     before(:each) do
-      [:scrum_master_role, :developer_role, :product_owner_role].each { |factory| create(*factory) }
+      FactoryBotHelper.roles_factories { |factory| build(*factory) }
     end
 
     it 'returns correct instance' do
@@ -36,7 +36,7 @@ RSpec.describe Role, type: :model do
 
   describe '.developer' do
     before(:each) do
-      [:scrum_master_role, :developer_role, :product_owner_role].each { |factory| create(*factory) }
+      FactoryBotHelper.roles_factories { |factory| build(*factory) }
     end
 
     it 'returns correct instance' do
@@ -47,7 +47,7 @@ RSpec.describe Role, type: :model do
 
   describe '.product_owner' do
     before(:each) do
-      [:scrum_master_role, :developer_role, :product_owner_role].each { |factory| create(*factory) }
+      FactoryBotHelper.roles_factories { |factory| build(*factory) }
     end
 
     it 'returns correct instance' do

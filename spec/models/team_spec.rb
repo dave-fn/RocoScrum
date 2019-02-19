@@ -50,8 +50,8 @@ RSpec.describe Team, type: :model do
     let(:project)  { create :project }
 
     before(:each) do
-      create :scrum_master_role
-      create :developer_role, min_participants: 3, max_participants: 7
+      build :scrum_master_role
+      build :developer_role, min_participants: 3, max_participants: 7
     end
 
     describe '#size' do

@@ -15,7 +15,10 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'pundit/rspec'
 require 'pundit/matchers'
-require 'support/requests_helpers.rb'
+require 'support/shoulda_matchers'
+require 'support/requests_helpers'
+require 'support/factory_bot_helper'
+require 'support/factory_bot_profiler'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -88,13 +91,12 @@ RSpec.configure do |config|
       example.run
     end
   end
-end
 
+  # FactoryBot ActiveSupport Notifications - Profiling
+  config.add_setting :profile_factories, default: false
+  config.profile_factories = config.profile_examples? || ARGV.include?('--profile') || ARGV.include?('-p')
+  FactoryBotProfiler.setup if config.profile_factories?
 
-# Shoulda Matchers configuration
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
+  # FactoryBot ActiveSupport Notifications - Creation
+  FactoryBotProfiler.monitor_database_record_creation
 end
