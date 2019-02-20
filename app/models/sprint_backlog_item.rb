@@ -21,6 +21,6 @@ class SprintBacklogItem < ApplicationRecord
   scope :ordered_by_sprint_and_position, -> { ordered_by_sprint.ordered_by_position }
   scope :ordered_by_team_and_position, -> { ordered_by_team.ordered_by_position }
 
-  acts_as_list scope: [:sprint_id, :team_id], top_of_list: 0, add_new_at: nil
+  acts_as_list scope: [:sprint_id, :team_id], top_of_list: 0, add_new_at: :bottom
 
 end

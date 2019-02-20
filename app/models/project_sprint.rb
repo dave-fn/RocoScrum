@@ -14,6 +14,6 @@ class ProjectSprint < ApplicationRecord
   # Scopes
   scope :ordered_by_position, -> { order(position: :asc) }
 
-  acts_as_list scope: :project, top_of_list: 0, add_new_at: nil
+  acts_as_list scope: :project, top_of_list: 0, add_new_at: :bottom
 
 end
