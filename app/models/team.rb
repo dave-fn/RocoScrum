@@ -18,6 +18,13 @@ class Team < ApplicationRecord
   has_many :sprint_backlog_items, -> { ordered_by_sprint_and_position }, dependent: :nullify, inverse_of: :team
   has_many :sprints, through: :sprint_backlog_items
 
+  # Backlog Items Status
+  has_many :item_statuses, dependent: :destroy, inverse_of: :team
+  # rubocop:disable Rails/InverseOf
+  has_many :sprint_backlog_item_statuses, -> { for_sprint_items }, class_name: 'ItemStatus', dependent: :destroy
+  has_many :product_backlog_item_statuses, -> { for_product_items }, class_name: 'ItemStatus', dependent: :destroy
+  # rubocop:enable Rails/InverseOf
+
   # All Members
   has_many :team_memberships, dependent: :destroy, inverse_of: :team
   has_many :members, through: :team_memberships, source: :user

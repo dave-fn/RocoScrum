@@ -24,6 +24,12 @@ e3 = FactoryBot.create :sprint_review_event
 e4 = FactoryBot.create :sprint_retrospective_event
 e5 = FactoryBot.create :daily_scrum_event
 
+sbis1 = FactoryBot.create :sbi_committed_status
+sbis2 = FactoryBot.create :sbi_assigned_status
+sbis3 = FactoryBot.create :sbi_in_progress_status
+sbis4 = FactoryBot.create :sbi_completed_status
+sbis5 = FactoryBot.create :sbi_pending_status
+
 case Rails.env
 when 'development'
   u1 = FactoryBot.create :user, name: 'testuser', email: 'testuser@example.org'
@@ -36,5 +42,7 @@ when 'development'
 
   prod1 = FactoryBot.create :product, :with_product_owner, :with_backlog_items, project: t1.project
   s1 = FactoryBot.create :sprint, :with_backlog_items, team: t1, project: pp.first
+
+  sbis_t1 = FactoryBot.create :item_status, context: 'SBI', team: t1
 when 'production'
 end

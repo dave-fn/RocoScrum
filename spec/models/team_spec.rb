@@ -19,6 +19,10 @@ RSpec.describe Team, type: :model do
 
   it { should have_many(:sprint_backlog_items).dependent(:nullify).inverse_of(:team) }
 
+  it { should have_many(:item_statuses).dependent(:destroy).inverse_of(:team) }
+  it { should have_many(:sprint_backlog_item_statuses).dependent(:destroy) }
+  it { should have_many(:product_backlog_item_statuses).dependent(:destroy) }
+
 
   describe '#current_sprint_backlog_items' do
     let(:team)  { create :working_team }
