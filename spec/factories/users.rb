@@ -45,6 +45,7 @@ FactoryBot.define do
     end
 
     factory :admin_user, traits: [:as_admin]
+    factory :developer, traits: [:developer_name]
 
   end
 

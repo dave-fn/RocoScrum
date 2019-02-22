@@ -44,5 +44,7 @@ when 'development'
   s1 = FactoryBot.create :sprint, :with_backlog_items, team: t1, project: pp.first
 
   sbis_t1 = FactoryBot.create :item_status, context: 'SBI', team: t1
+  FactoryBot.create :sbi_status_update, sprint_backlog_item: s1.sprint_backlog_items.first, item_status: sbis_t1,
+    developer: t1.developers.first, creator: t1.developers.last
 when 'production'
 end

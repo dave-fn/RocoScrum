@@ -12,6 +12,8 @@ class SprintBacklogItem < ApplicationRecord
   belongs_to :backlog_item, inverse_of: :sprint_backlog_items
   belongs_to :team, inverse_of: :sprint_backlog_items
 
+  has_many :status_updates, class_name: 'SbiStatusUpdate', dependent: :restrict_with_exception, inverse_of: :sprint_backlog_item
+
   # Scopes
   scope :for_sprint, ->(sprint) { where(sprint: sprint) }
   scope :for_team, ->(team) { where(team: team) }

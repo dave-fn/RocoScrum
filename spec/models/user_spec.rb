@@ -30,6 +30,15 @@ RSpec.describe User, type: :model do
   it { should have_many(:teams).through(:team_memberships) }
   it { should have_many(:roles).through(:team_memberships) }
 
+  it do
+    should have_many(:sbi_developer_status_updates).class_name('SbiStatusUpdate').with_foreign_key(:developer_id)
+      .dependent(:nullify).inverse_of(:developer)
+  end
+  it do
+    should have_many(:sbi_creator_status_updates).class_name('SbiStatusUpdate').with_foreign_key(:creator_id)
+      .dependent(:nullify).inverse_of(:creator)
+  end
+
 
   describe 'Uniqueness validations' do
     subject { build :user }

@@ -14,6 +14,7 @@ RSpec.describe ItemStatus, type: :model do
   it { should have_db_column(:context).with_options(limit: 5, null: false) }
 
   it { should belong_to(:team).inverse_of(:item_statuses).optional }
+  it { should have_many(:sbi_status_updates).dependent(:restrict_with_exception).inverse_of(:item_status) }
 
 
   describe 'Uniqueness validations' do
