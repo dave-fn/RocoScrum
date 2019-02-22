@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_16_052225) do
+ActiveRecord::Schema.define(version: 2019_02_22_040418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,18 @@ ActiveRecord::Schema.define(version: 2019_02_16_052225) do
     t.integer "timebox"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "item_statuses", force: :cascade do |t|
+    t.bigint "team_id"
+    t.string "context", limit: 5, null: false
+    t.string "title", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["context"], name: "index_item_statuses_on_context"
+    t.index ["team_id", "context", "title"], name: "index_item_statuses_on_team_id_and_context_and_title", unique: true
+    t.index ["team_id"], name: "index_item_statuses_on_team_id"
   end
 
   create_table "product_backlog_items", force: :cascade do |t|
@@ -145,6 +157,7 @@ ActiveRecord::Schema.define(version: 2019_02_16_052225) do
   end
 
   add_foreign_key "admins", "users"
+  add_foreign_key "item_statuses", "teams"
   add_foreign_key "product_backlog_items", "backlog_items"
   add_foreign_key "product_backlog_items", "products"
   add_foreign_key "products", "projects"
