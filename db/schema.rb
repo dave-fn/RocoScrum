@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_040418) do
+ActiveRecord::Schema.define(version: 2019_02_22_050429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,19 @@ ActiveRecord::Schema.define(version: 2019_02_22_040418) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sbi_status_updates", force: :cascade do |t|
+    t.bigint "sprint_backlog_item_id"
+    t.bigint "item_status_id"
+    t.bigint "developer_id"
+    t.bigint "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_sbi_status_updates_on_creator_id"
+    t.index ["developer_id"], name: "index_sbi_status_updates_on_developer_id"
+    t.index ["item_status_id"], name: "index_sbi_status_updates_on_item_status_id"
+    t.index ["sprint_backlog_item_id"], name: "index_sbi_status_updates_on_sprint_backlog_item_id"
+  end
+
   create_table "sprint_backlog_items", force: :cascade do |t|
     t.bigint "sprint_id"
     t.bigint "backlog_item_id"
@@ -165,6 +178,10 @@ ActiveRecord::Schema.define(version: 2019_02_22_040418) do
   add_foreign_key "project_sprints", "projects"
   add_foreign_key "project_sprints", "sprints"
   add_foreign_key "projects", "users", column: "admin_id"
+  add_foreign_key "sbi_status_updates", "item_statuses"
+  add_foreign_key "sbi_status_updates", "sprint_backlog_items"
+  add_foreign_key "sbi_status_updates", "users", column: "creator_id"
+  add_foreign_key "sbi_status_updates", "users", column: "developer_id"
   add_foreign_key "sprint_backlog_items", "backlog_items"
   add_foreign_key "sprint_backlog_items", "sprints"
   add_foreign_key "sprint_backlog_items", "teams"
