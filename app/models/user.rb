@@ -29,6 +29,10 @@ class User < ApplicationRecord
   has_many :teams, through: :team_memberships
   has_many :roles, through: :team_memberships
 
+  # Product & Project
+  has_many :products, through: :teams
+  has_many :projects, through: :teams
+
   # Sprint Backlog Item Status Updates
   has_many :sbi_developer_status_updates, class_name: 'SbiStatusUpdate', foreign_key: 'developer_id',
                                           dependent: :nullify, inverse_of: :developer

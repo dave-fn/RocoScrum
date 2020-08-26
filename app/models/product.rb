@@ -18,5 +18,7 @@ class Product < ApplicationRecord
 
   # Scopes
   scope :owned_by, ->(user) { where(owner: user) }
+  scope :of_project_admin_by, ->(user) { where(project: Project.admin_by(user)) }
+  scope :having_team_member, ->(user) { where(project: Project.having_team_member(user)) }
 
 end

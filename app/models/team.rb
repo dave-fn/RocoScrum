@@ -47,6 +47,9 @@ class Team < ApplicationRecord
     end
   end
 
+  # Scopes
+  scope :having_member, ->(user) { joins(:team_memberships).merge(TeamMembership.for_user(user)) }
+
   # Helpers
   def size
     return team_memberships.size if product_owner.nil?
