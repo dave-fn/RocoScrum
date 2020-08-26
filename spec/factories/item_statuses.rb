@@ -6,7 +6,7 @@ FactoryBot.define do
 
     context { 'SBI' }
     sequence(:title) { |n| "#{Faker::Hacker.ingverb}-#{n}" }
-    description { Faker::Hipster.sentences(1) }
+    description { Faker::Hipster.sentences(number: 1) }
 
     trait :matching_description do
       description { title }

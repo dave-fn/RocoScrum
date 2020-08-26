@@ -12,7 +12,7 @@ FactoryBot.define do
     end
 
     trait :started do
-      started_at { Faker::Date.between(3.days.ago, Time.zone.today) }
+      started_at { Faker::Date.between(from: 3.days.ago, to: Time.zone.today) }
     end
 
     trait :with_backlog_items do
