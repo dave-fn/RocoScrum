@@ -8,7 +8,6 @@ RSpec.describe ProjectSprint, type: :model do
   it { should belong_to(:sprint).inverse_of(:project_sprint) }
 
   it { should validate_numericality_of(:position).only_integer.allow_nil }
-  # it { should validate_presence_of(:position).with_message(:not_a_number) }
   it { should_not validate_presence_of(:position) }
 
 
@@ -17,8 +16,7 @@ RSpec.describe ProjectSprint, type: :model do
 
     it { should validate_uniqueness_of(:project_id).scoped_to(:sprint_id) }
     it { should validate_uniqueness_of(:sprint_id).scoped_to(:project_id) }
-
-    # it { should validate_uniqueness_of(:position).scoped_to(:project_id) }
+    it { should validate_uniqueness_of(:position).scoped_to(:project_id) }
   end
 
 end

@@ -4,8 +4,7 @@ require 'rails_helper'
 
 RSpec.describe RolePolicy do
 
-  # FIXME: Pass instance as record, not class
-  subject { described_class.new user, described_class }
+  subject { described_class.new user, developer_role }
 
   let(:resolved_scope)  { described_class::Scope.new(user, Role.all).resolve }
 

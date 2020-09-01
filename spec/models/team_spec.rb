@@ -92,14 +92,6 @@ RSpec.describe Team, type: :model do
           let(:developer_count)  { 2 }
 
           specify { expect(team).to_not be_valid }
-          # pending 'set flag to mark non-compliant as intermediate state -- aside from valid'
-
-          context 'due to removing' do
-            let(:developer_count)  { 3 }
-            let(:parting_dev)  { team.developers.first }
-
-            pending { expect { team.developers.destroy(parting_dev) }.to raise_error Team::Errors::MinDevelopers }
-          end
         end
 
         context 'within limits' do
@@ -111,7 +103,6 @@ RSpec.describe Team, type: :model do
         context 'over maximum' do
           let(:developer_count)  { 10 }
 
-          pending { expect { team }.to raise_error Team::Errors::MaxDevelopers }
           specify { expect(team).to_not be_valid }
         end
       end

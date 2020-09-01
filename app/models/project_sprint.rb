@@ -4,8 +4,7 @@ class ProjectSprint < ApplicationRecord
 
   validates :project_id, uniqueness: { scope: [:sprint_id] }
   validates :sprint_id, uniqueness: { scope: [:project_id] }
-  # validates :position, uniqueness: { scope: [:project_id] }, numericality: { only_integer: true }, allow_nil: true
-  validates :position, numericality: { only_integer: true }, allow_nil: true
+  validates :position, uniqueness: { scope: [:project_id] }, numericality: { only_integer: true }, allow_nil: true
 
   # Association
   belongs_to :project, inverse_of: :project_sprints

@@ -4,7 +4,7 @@ FactoryBot.define do
 
   factory :event do
     name { Faker::Ancient.titan }
-    timebox { Faker::Number.number(3) }
+    timebox { Faker::Number.number(digits: 3) }
     initialize_with { Event.find_or_create_by(name: name) }
 
     trait :sprint do
