@@ -12,6 +12,11 @@ RSpec.describe SprintBacklogItem, type: :model do
   # it { should validate_presence_of(:position).with_message(:not_a_number) }
   it { should_not validate_presence_of(:position).with_message(:not_a_number) }
 
+  it do
+    should have_many(:status_updates).class_name('SbiStatusUpdate')
+      .dependent(:restrict_with_exception).inverse_of(:sprint_backlog_item)
+  end
+
 
   describe 'Uniqueness validations' do
     subject  { build :sprint_backlog_item }

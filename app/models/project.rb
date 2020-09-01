@@ -21,5 +21,6 @@ class Project < ApplicationRecord
 
   # Scopes
   scope :admin_by, ->(user) { where(admin: user) }
+  scope :having_team_member, ->(user) { where(teams: Team.having_member(user) ) }
 
 end

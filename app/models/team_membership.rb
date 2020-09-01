@@ -10,5 +10,6 @@ class TeamMembership < ApplicationRecord
   # Scopes
   scope :scrum_masters, -> { where(role: Role.scrum_master) }
   scope :developers, -> { where(role: Role.developer) }
+  scope :for_user, ->(user) { where(user: user) }
 
 end
