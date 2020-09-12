@@ -8,7 +8,7 @@ class Api::V1::TeamResource < Api::V1::ResourceBase
 
   attributes :size
 
-  # relationship :product_owner, to: :one
+  relationship :product_owner, to: :one
   relationship :scrum_master, to: :one
   relationship :developers, to: :many
   relationship :project, to: :one

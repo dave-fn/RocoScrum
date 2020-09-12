@@ -9,7 +9,7 @@ class Api::V1::UserResource < Api::V1::ResourceBase
   # Preliminary Implementation
   immutable
 
-  attributes :name, :email, :last_logged_at, :admin?, :developer?, :scrum_master?, :project_admin?
+  attributes :name, :email, :last_logged_at, :admin?, :developer?, :scrum_master?, :product_owner?, :project_admin?
 
   filter :email
 
