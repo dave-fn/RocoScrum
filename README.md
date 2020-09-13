@@ -1,24 +1,40 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Rails API for managing a project using Scrum
 
-Things you may want to cover:
+This repository's objective was to serve as an exercise in the creation of a
+RESTful API using Rails and the concepts of the Scrum framework.
 
-* Ruby version
+This project was built using
 
-* System dependencies
+* __Ruby on Rails__ - RESTful API
 
-* Configuration
+    * __Rake__ - Build manager
 
-* Database creation
+    * __Bundler__ - Dependency manager
 
-* Database initialization
+    * __RSpec__ - Behavior-Driven Development
 
-* How to run the test suite
+    * __JSON:API__ - API Specification
 
-* Services (job queues, cache servers, search engines, etc.)
+    * __JWT__ - Authentication
 
-* Deployment instructions
+    * __Pundit__ & __JSONAPI::Authorization__ - Authorization
 
-* ...
+    * __Hashids__ - Non-sequential, alphanumeric IDs
+
+* __Scrum__ - Framework for managing the development of complex products
+
+    * __Roles__: Scrum Master, Product Owner, Developer
+
+    * __Events__: Sprint, Sprint Planning, Sprint Review, Sprint Retrospective, Daily Scrum
+
+    * __Team__: Group of Scrum Master, Product Owner, and 3 to 9 Developers
+
+    * __Product__: The system, item, or service being developed
+
+    * __Product Backlog__: An ordered list of product requirements and features
+
+    * __Sprint__: A development cycle no greater than 30 days in which the development team agrees to deliver a set of features
+
+    * __Sprint Backlog__: A subset of the product backlog to be implemented during a sprint
